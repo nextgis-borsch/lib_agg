@@ -1,27 +1,17 @@
 //----------------------------------------------------------------------------
-// Anti-Grain Geometry (AGG) - Version 2.5
-// A high quality rendering engine for C++
-// Copyright (C) 2002-2006 Maxim Shemanarev
+// Anti-Grain Geometry - Version 2.4
+// Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
+//
+// Permission to copy, use, modify, sell and distribute this software 
+// is granted provided this copyright notice appears in all copies. 
+// This software is provided "as is" without express or implied
+// warranty, and with no claim as to its suitability for any purpose.
+//
+//----------------------------------------------------------------------------
 // Contact: mcseem@antigrain.com
 //          mcseemagg@yahoo.com
-//          http://antigrain.com
-// 
-// AGG is free software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public License
-// as published by the Free Software Foundation; either version 2
-// of the License, or (at your option) any later version.
-// 
-// AGG is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License
-// along with AGG; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, 
-// MA 02110-1301, USA.
+//          http://www.antigrain.com
 //----------------------------------------------------------------------------
-
 #ifndef AGG_PATTERN_FILTERS_RGBA8_INCLUDED
 #define AGG_PATTERN_FILTERS_RGBA8_INCLUDED
 
@@ -77,7 +67,7 @@ namespace agg
                                               color_type* p, int x, int y)
         {
             calc_type r, g, b, a;
-            r = g = b = a = line_subpixel_scale * line_subpixel_scale / 2;
+            r = g = b = a = 0;
 
             calc_type weight;
             int x_lr = x >> line_subpixel_shift;
@@ -118,15 +108,16 @@ namespace agg
             b += weight * ptr->b;
             a += weight * ptr->a;
 
-            p->r = (value_type)(r >> line_subpixel_shift * 2);
-            p->g = (value_type)(g >> line_subpixel_shift * 2);
-            p->b = (value_type)(b >> line_subpixel_shift * 2);
-            p->a = (value_type)(a >> line_subpixel_shift * 2);
+            p->r = (value_type)color_type::downshift(r, line_subpixel_shift * 2);
+            p->g = (value_type)color_type::downshift(g, line_subpixel_shift * 2);
+            p->b = (value_type)color_type::downshift(b, line_subpixel_shift * 2);
+            p->a = (value_type)color_type::downshift(a, line_subpixel_shift * 2);
         }
     };
 
     typedef pattern_filter_bilinear_rgba<rgba8>  pattern_filter_bilinear_rgba8;
     typedef pattern_filter_bilinear_rgba<rgba16> pattern_filter_bilinear_rgba16;
+    typedef pattern_filter_bilinear_rgba<rgba32> pattern_filter_bilinear_rgba32;
 }
 
 #endif

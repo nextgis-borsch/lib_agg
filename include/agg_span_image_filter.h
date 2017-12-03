@@ -1,27 +1,21 @@
 //----------------------------------------------------------------------------
-// Anti-Grain Geometry (AGG) - Version 2.5
-// A high quality rendering engine for C++
-// Copyright (C) 2002-2006 Maxim Shemanarev
+// Anti-Grain Geometry - Version 2.4
+// Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
+//
+// Permission to copy, use, modify, sell and distribute this software 
+// is granted provided this copyright notice appears in all copies. 
+// This software is provided "as is" without express or implied
+// warranty, and with no claim as to its suitability for any purpose.
+//
+//----------------------------------------------------------------------------
 // Contact: mcseem@antigrain.com
 //          mcseemagg@yahoo.com
-//          http://antigrain.com
-// 
-// AGG is free software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public License
-// as published by the Free Software Foundation; either version 2
-// of the License, or (at your option) any later version.
-// 
-// AGG is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License
-// along with AGG; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, 
-// MA 02110-1301, USA.
+//          http://www.antigrain.com
 //----------------------------------------------------------------------------
-
+//
+// Image transformations with filtering. Span generator base class
+//
+//----------------------------------------------------------------------------
 #ifndef AGG_SPAN_IMAGE_FILTER_INCLUDED
 #define AGG_SPAN_IMAGE_FILTER_INCLUDED
 
@@ -43,7 +37,7 @@ namespace agg
         span_image_filter() {}
         span_image_filter(source_type& src, 
                           interpolator_type& interpolator,
-                          const image_filter_lut* filter) : 
+                          image_filter_lut* filter) : 
             m_src(&src),
             m_interpolator(&interpolator),
             m_filter(filter),
@@ -65,7 +59,7 @@ namespace agg
 
         //--------------------------------------------------------------------
         void interpolator(interpolator_type& v)  { m_interpolator = &v; }
-        void filter(const image_filter_lut& v)   { m_filter = &v; }
+        void filter(image_filter_lut& v)         { m_filter = &v; }
         void filter_offset(double dx, double dy)
         {
             m_dx_dbl = dx;
@@ -85,7 +79,7 @@ namespace agg
     private:
         source_type*            m_src;
         interpolator_type*      m_interpolator;
-        const image_filter_lut* m_filter;
+        image_filter_lut*       m_filter;
         double   m_dx_dbl;
         double   m_dy_dbl;
         unsigned m_dx_int;
@@ -115,7 +109,7 @@ namespace agg
         //--------------------------------------------------------------------
         span_image_resample_affine(source_type& src, 
                                    interpolator_type& inter,
-                                   const image_filter_lut& filter) :
+                                   image_filter_lut& filter) :
             base_type(src, inter, &filter),
             m_scale_limit(200.0),
             m_blur_x(1.0),
@@ -201,7 +195,7 @@ namespace agg
         //--------------------------------------------------------------------
         span_image_resample(source_type& src, 
                             interpolator_type& inter,
-                            const image_filter_lut& filter) :
+                            image_filter_lut& filter) :
             base_type(src, inter, &filter),
             m_scale_limit(20),
             m_blur_x(image_subpixel_scale),

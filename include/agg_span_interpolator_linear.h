@@ -1,25 +1,16 @@
 //----------------------------------------------------------------------------
-// Anti-Grain Geometry (AGG) - Version 2.5
-// A high quality rendering engine for C++
-// Copyright (C) 2002-2006 Maxim Shemanarev
+// Anti-Grain Geometry - Version 2.4
+// Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
+//
+// Permission to copy, use, modify, sell and distribute this software 
+// is granted provided this copyright notice appears in all copies. 
+// This software is provided "as is" without express or implied
+// warranty, and with no claim as to its suitability for any purpose.
+//
+//----------------------------------------------------------------------------
 // Contact: mcseem@antigrain.com
 //          mcseemagg@yahoo.com
-//          http://antigrain.com
-// 
-// AGG is free software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public License
-// as published by the Free Software Foundation; either version 2
-// of the License, or (at your option) any later version.
-// 
-// AGG is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License
-// along with AGG; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, 
-// MA 02110-1301, USA.
+//          http://www.antigrain.com
 //----------------------------------------------------------------------------
 
 #ifndef AGG_SPAN_INTERPOLATOR_LINEAR_INCLUDED
@@ -47,8 +38,8 @@ namespace agg
 
         //--------------------------------------------------------------------
         span_interpolator_linear() {}
-        span_interpolator_linear(const trans_type& trans) : m_trans(&trans) {}
-        span_interpolator_linear(const trans_type& trans,
+        span_interpolator_linear(trans_type& trans) : m_trans(&trans) {}
+        span_interpolator_linear(trans_type& trans,
                                  double x, double y, unsigned len) :
             m_trans(&trans)
         {
@@ -57,7 +48,7 @@ namespace agg
 
         //----------------------------------------------------------------
         const trans_type& transformer() const { return *m_trans; }
-        void transformer(const trans_type& trans) { m_trans = &trans; }
+        void transformer(trans_type& trans) { m_trans = &trans; }
 
         //----------------------------------------------------------------
         void begin(double x, double y, unsigned len)
@@ -104,7 +95,7 @@ namespace agg
         }
 
     private:
-        const trans_type* m_trans;
+        trans_type* m_trans;
         dda2_line_interpolator m_li_x;
         dda2_line_interpolator m_li_y;
     };
@@ -134,14 +125,14 @@ namespace agg
             m_subdiv_size(1 << m_subdiv_shift),
             m_subdiv_mask(m_subdiv_size - 1) {}
 
-        span_interpolator_linear_subdiv(const trans_type& trans, 
+        span_interpolator_linear_subdiv(trans_type& trans, 
                                         unsigned subdiv_shift = 4) : 
             m_subdiv_shift(subdiv_shift),
             m_subdiv_size(1 << m_subdiv_shift),
             m_subdiv_mask(m_subdiv_size - 1),
             m_trans(&trans) {}
 
-        span_interpolator_linear_subdiv(const trans_type& trans,
+        span_interpolator_linear_subdiv(trans_type& trans,
                                         double x, double y, unsigned len,
                                         unsigned subdiv_shift = 4) :
             m_subdiv_shift(subdiv_shift),
@@ -222,7 +213,7 @@ namespace agg
         unsigned m_subdiv_shift;
         unsigned m_subdiv_size;
         unsigned m_subdiv_mask;
-        const trans_type* m_trans;
+        trans_type* m_trans;
         dda2_line_interpolator m_li_x;
         dda2_line_interpolator m_li_y;
         int      m_src_x;

@@ -1,25 +1,16 @@
 //----------------------------------------------------------------------------
-// Anti-Grain Geometry (AGG) - Version 2.5
-// A high quality rendering engine for C++
-// Copyright (C) 2002-2006 Maxim Shemanarev
+// Anti-Grain Geometry - Version 2.4
+// Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
+//
+// Permission to copy, use, modify, sell and distribute this software 
+// is granted provided this copyright notice appears in all copies. 
+// This software is provided "as is" without express or implied
+// warranty, and with no claim as to its suitability for any purpose.
+//
+//----------------------------------------------------------------------------
 // Contact: mcseem@antigrain.com
 //          mcseemagg@yahoo.com
-//          http://antigrain.com
-// 
-// AGG is free software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public License
-// as published by the Free Software Foundation; either version 2
-// of the License, or (at your option) any later version.
-// 
-// AGG is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License
-// along with AGG; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, 
-// MA 02110-1301, USA.
+//          http://www.antigrain.com
 //----------------------------------------------------------------------------
 
 #ifndef AGG_SPAN_INTERPOLATOR_ADAPTOR_INCLUDED
@@ -41,16 +32,16 @@ namespace agg
 
         //--------------------------------------------------------------------
         span_interpolator_adaptor() {}
-        span_interpolator_adaptor(const trans_type& trans, 
-                                  const distortion_type& dist) :
+        span_interpolator_adaptor(trans_type& trans, 
+                                  distortion_type& dist) :
             base_type(trans),
             m_distortion(&dist)
         {   
         }
 
         //--------------------------------------------------------------------
-        span_interpolator_adaptor(const trans_type& trans,
-                                  const distortion_type& dist,
+        span_interpolator_adaptor(trans_type& trans,
+                                  distortion_type& dist,
                                   double x, double y, unsigned len) :
             base_type(trans, x, y, len),
             m_distortion(&dist)
@@ -58,13 +49,13 @@ namespace agg
         }
 
         //--------------------------------------------------------------------
-        const distortion_type& distortion() const
+        distortion_type& distortion() const
         {
             return *m_distortion;
         }
 
         //--------------------------------------------------------------------
-        void distortion(const distortion_type& dist)
+        void distortion(distortion_type& dist)
         {
             m_distortion = dist;
         }
@@ -78,7 +69,7 @@ namespace agg
 
     private:
         //--------------------------------------------------------------------
-        const distortion_type* m_distortion;
+        distortion_type* m_distortion;
     };
 }
 

@@ -1,25 +1,16 @@
 //----------------------------------------------------------------------------
-// Anti-Grain Geometry (AGG) - Version 2.5
-// A high quality rendering engine for C++
-// Copyright (C) 2002-2006 Maxim Shemanarev
+// Anti-Grain Geometry - Version 2.4
+// Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
+//
+// Permission to copy, use, modify, sell and distribute this software 
+// is granted provided this copyright notice appears in all copies. 
+// This software is provided "as is" without express or implied
+// warranty, and with no claim as to its suitability for any purpose.
+//
+//----------------------------------------------------------------------------
 // Contact: mcseem@antigrain.com
 //          mcseemagg@yahoo.com
-//          http://antigrain.com
-// 
-// AGG is free software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public License
-// as published by the Free Software Foundation; either version 2
-// of the License, or (at your option) any later version.
-// 
-// AGG is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License
-// along with AGG; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, 
-// MA 02110-1301, USA.
+//          http://www.antigrain.com
 //----------------------------------------------------------------------------
 //
 // Adaptation for high precision colors has been sponsored by 
@@ -814,7 +805,7 @@ namespace agg
             base_shift = color_type::base_shift,
             base_scale = color_type::base_scale,
             base_mask  = color_type::base_mask,
-            pix_width  = sizeof(pixel_type)
+            pix_width  = sizeof(pixel_type),
         };
 
     private:
@@ -1153,9 +1144,11 @@ namespace agg
                               int8u cover)
         {
             typedef typename SrcPixelFormatRenderer::value_type src_value_type;
+            typedef typename SrcPixelFormatRenderer::color_type src_color_type;
             const src_value_type* psrc = (src_value_type*)from.row_ptr(ysrc);
             if(psrc)
             {
+                psrc += xsrc * SrcPixelFormatRenderer::pix_step + SrcPixelFormatRenderer::pix_offset;
                 pixel_type* pdst = 
                     (pixel_type*)m_rbuf->row_ptr(xdst, ydst, len) + xdst;
 
@@ -1164,7 +1157,7 @@ namespace agg
                     m_blender.blend_pix(pdst, 
                                         color.r, color.g, color.b, color.a,
                                         cover);
-                    ++psrc;
+                    psrc += SrcPixelFormatRenderer::pix_step;
                     ++pdst;
                 }
                 while(--len);
@@ -1184,6 +1177,7 @@ namespace agg
             const src_value_type* psrc = (src_value_type*)from.row_ptr(ysrc);
             if(psrc)
             {
+                psrc += xsrc * SrcPixelFormatRenderer::pix_step + SrcPixelFormatRenderer::pix_offset;
                 pixel_type* pdst = 
                     (pixel_type*)m_rbuf->row_ptr(xdst, ydst, len) + xdst;
 
@@ -1193,7 +1187,7 @@ namespace agg
                     m_blender.blend_pix(pdst, 
                                         color.r, color.g, color.b, color.a,
                                         cover);
-                    ++psrc;
+                    psrc += SrcPixelFormatRenderer::pix_step;
                     ++pdst;
                 }
                 while(--len);

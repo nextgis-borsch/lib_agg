@@ -1,44 +1,35 @@
 //----------------------------------------------------------------------------
-// Anti-Grain Geometry (AGG) - Version 2.5
-// A high quality rendering engine for C++
-// Copyright (C) 2002-2006 Maxim Shemanarev
-// Contact: mcseem@antigrain.com
-//          mcseemagg@yahoo.com
-//          http://antigrain.com
-// 
-// AGG is free software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public License
-// as published by the Free Software Foundation; either version 2
-// of the License, or (at your option) any later version.
-// 
-// AGG is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License
-// along with AGG; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, 
-// MA 02110-1301, USA.
+// Anti-Grain Geometry - Version 2.4
+// Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
+//
+// Permission to copy, use, modify, sell and distribute this software
+// is granted provided this copyright notice appears in all copies.
+// This software is provided "as is" without express or implied
+// warranty, and with no claim as to its suitability for any purpose.
+//
 //----------------------------------------------------------------------------
 //
-// The author gratefully acknowleges the support of David Turner, 
-// Robert Wilhelm, and Werner Lemberg - the authors of the FreeType 
+// The author gratefully acknowleges the support of David Turner,
+// Robert Wilhelm, and Werner Lemberg - the authors of the FreeType
 // libray - in producing this work. See http://www.freetype.org for details.
 //
 //----------------------------------------------------------------------------
+// Contact: mcseem@antigrain.com
+//          mcseemagg@yahoo.com
+//          http://www.antigrain.com
+//----------------------------------------------------------------------------
 //
-// Adaptation for 32-bit screen coordinates has been sponsored by 
+// Adaptation for 32-bit screen coordinates has been sponsored by
 // Liberty Technology Systems, Inc., visit http://lib-sys.com
 //
 // Liberty Technology Systems, Inc. is the provider of
 // PostScript and PDF technology for software developers.
-// 
+//
 //----------------------------------------------------------------------------
-
 #ifndef AGG_RASTERIZER_CELLS_AA_INCLUDED
 #define AGG_RASTERIZER_CELLS_AA_INCLUDED
 
+#include <stdexcept>
 #include <string.h>
 #include <math.h>
 #include "agg_math.h"
@@ -58,8 +49,7 @@ namespace agg
             cell_block_shift = 12,
             cell_block_size  = 1 << cell_block_shift,
             cell_block_mask  = cell_block_size - 1,
-            cell_block_pool  = 256,
-            cell_block_limit = 1024
+            cell_block_pool  = 256
         };
 
         struct sorted_y
@@ -73,7 +63,7 @@ namespace agg
         typedef rasterizer_cells_aa<Cell> self_type;
 
         ~rasterizer_cells_aa();
-        rasterizer_cells_aa();
+        rasterizer_cells_aa(unsigned cell_block_limit=1024);
 
         void reset();
         void style(const cell_type& style_cell);
@@ -86,19 +76,19 @@ namespace agg
 
         void sort_cells();
 
-        unsigned total_cells() const 
+        unsigned total_cells() const
         {
             return m_num_cells;
         }
 
-        unsigned scanline_num_cells(unsigned y) const 
-        { 
-            return m_sorted_y[y - m_min_y].num; 
+        unsigned scanline_num_cells(unsigned y) const
+        {
+            return m_sorted_y[y - m_min_y].num;
         }
 
         const cell_type* const* scanline_cells(unsigned y) const
-        { 
-            return m_sorted_cells.data() + m_sorted_y[y - m_min_y].start; 
+        {
+            return m_sorted_cells.data() + m_sorted_y[y - m_min_y].start;
         }
 
         bool sorted() const { return m_sorted; }
@@ -111,12 +101,13 @@ namespace agg
         void add_curr_cell();
         void render_hline(int ey, int x1, int y1, int x2, int y2);
         void allocate_block();
-        
+
     private:
         unsigned                m_num_blocks;
         unsigned                m_max_blocks;
         unsigned                m_curr_block;
         unsigned                m_num_cells;
+        unsigned                m_cell_block_limit;
         cell_type**             m_cells;
         cell_type*              m_curr_cell_ptr;
         pod_vector<cell_type*>  m_sorted_cells;
@@ -134,7 +125,7 @@ namespace agg
 
 
     //------------------------------------------------------------------------
-    template<class Cell> 
+    template<class Cell>
     rasterizer_cells_aa<Cell>::~rasterizer_cells_aa()
     {
         if(m_num_blocks)
@@ -150,12 +141,13 @@ namespace agg
     }
 
     //------------------------------------------------------------------------
-    template<class Cell> 
-    rasterizer_cells_aa<Cell>::rasterizer_cells_aa() :
+    template<class Cell>
+    rasterizer_cells_aa<Cell>::rasterizer_cells_aa(unsigned cell_block_limit) :
         m_num_blocks(0),
         m_max_blocks(0),
         m_curr_block(0),
         m_num_cells(0),
+        m_cell_block_limit(cell_block_limit),
         m_cells(0),
         m_curr_cell_ptr(0),
         m_sorted_cells(),
@@ -171,10 +163,10 @@ namespace agg
     }
 
     //------------------------------------------------------------------------
-    template<class Cell> 
+    template<class Cell>
     void rasterizer_cells_aa<Cell>::reset()
     {
-        m_num_cells = 0; 
+        m_num_cells = 0;
         m_curr_block = 0;
         m_curr_cell.initial();
         m_style_cell.initial();
@@ -186,14 +178,16 @@ namespace agg
     }
 
     //------------------------------------------------------------------------
-    template<class Cell> 
+    template<class Cell>
     AGG_INLINE void rasterizer_cells_aa<Cell>::add_curr_cell()
     {
         if(m_curr_cell.area | m_curr_cell.cover)
         {
             if((m_num_cells & cell_block_mask) == 0)
             {
-                if(m_num_blocks >= cell_block_limit) return;
+                if(m_num_blocks >= m_cell_block_limit) {
+                    throw std::overflow_error("Exceeded cell block limit");
+                }
                 allocate_block();
             }
             *m_curr_cell_ptr++ = m_curr_cell;
@@ -202,7 +196,7 @@ namespace agg
     }
 
     //------------------------------------------------------------------------
-    template<class Cell> 
+    template<class Cell>
     AGG_INLINE void rasterizer_cells_aa<Cell>::set_curr_cell(int x, int y)
     {
         if(m_curr_cell.not_equal(x, y, m_style_cell))
@@ -217,9 +211,9 @@ namespace agg
     }
 
     //------------------------------------------------------------------------
-    template<class Cell> 
-    AGG_INLINE void rasterizer_cells_aa<Cell>::render_hline(int ey, 
-                                                            int x1, int y1, 
+    template<class Cell>
+    AGG_INLINE void rasterizer_cells_aa<Cell>::render_hline(int ey,
+                                                            int x1, int y1,
                                                             int x2, int y2)
     {
         int ex1 = x1 >> poly_subpixel_shift;
@@ -315,14 +309,14 @@ namespace agg
     }
 
     //------------------------------------------------------------------------
-    template<class Cell> 
+    template<class Cell>
     AGG_INLINE void rasterizer_cells_aa<Cell>::style(const cell_type& style_cell)
-    { 
-        m_style_cell.style(style_cell); 
+    {
+        m_style_cell.style(style_cell);
     }
 
     //------------------------------------------------------------------------
-    template<class Cell> 
+    template<class Cell>
     void rasterizer_cells_aa<Cell>::line(int x1, int y1, int x2, int y2)
     {
         enum dx_limit_e { dx_limit = 16384 << poly_subpixel_shift };
@@ -368,7 +362,7 @@ namespace agg
 
         //Vertical line - we have to calculate start and end cells,
         //and then - the common values of the area and coverage for
-        //all cells of the line. We know exactly there's only one 
+        //all cells of the line. We know exactly there's only one
         //cell, so, we don't have to call render_hline().
         incr  = 1;
         if(dx == 0)
@@ -473,15 +467,15 @@ namespace agg
     }
 
     //------------------------------------------------------------------------
-    template<class Cell> 
+    template<class Cell>
     void rasterizer_cells_aa<Cell>::allocate_block()
     {
         if(m_curr_block >= m_num_blocks)
         {
             if(m_num_blocks >= m_max_blocks)
             {
-                cell_type** new_cells = 
-                    pod_allocator<cell_type*>::allocate(m_max_blocks + 
+                cell_type** new_cells =
+                    pod_allocator<cell_type*>::allocate(m_max_blocks +
                                                         cell_block_pool);
 
                 if(m_cells)
@@ -493,7 +487,7 @@ namespace agg
                 m_max_blocks += cell_block_pool;
             }
 
-            m_cells[m_num_blocks++] = 
+            m_cells[m_num_blocks++] =
                 pod_allocator<cell_type>::allocate(cell_block_size);
 
         }
@@ -523,7 +517,7 @@ namespace agg
     void qsort_cells(Cell** start, unsigned num)
     {
         Cell**  stack[80];
-        Cell*** top; 
+        Cell*** top;
         Cell**  limit;
         Cell**  base;
 
@@ -548,7 +542,7 @@ namespace agg
                 i = base + 1;
                 j = limit - 1;
 
-                // now ensure that *i <= *base <= *j 
+                // now ensure that *i <= *base <= *j
                 if((*j)->x < (*i)->x)
                 {
                     swap_cells(i, j);
@@ -629,7 +623,7 @@ namespace agg
 
 
     //------------------------------------------------------------------------
-    template<class Cell> 
+    template<class Cell>
     void rasterizer_cells_aa<Cell>::sort_cells()
     {
         if(m_sorted) return; //Perform sort only the first time.
@@ -646,9 +640,9 @@ namespace agg
 //for(unsigned nc = 0; nc < m_num_cells; nc++)
 //{
 //    cell_type* cell = m_cells[nc >> cell_block_shift] + (nc & cell_block_mask);
-//    if(cell->x < m_min_x || 
-//       cell->y < m_min_y || 
-//       cell->x > m_max_x || 
+//    if(cell->x < m_min_x ||
+//       cell->y < m_min_y ||
+//       cell->x > m_max_x ||
 //       cell->y > m_max_y)
 //    {
 //        cell = cell; // Breakpoint here
@@ -664,25 +658,18 @@ namespace agg
         // Create the Y-histogram (count the numbers of cells for each Y)
         cell_type** block_ptr = m_cells;
         cell_type*  cell_ptr;
-        unsigned nb = m_num_cells >> cell_block_shift;
+        unsigned nb = m_num_cells;
         unsigned i;
-        while(nb--)
+        while(nb)
         {
             cell_ptr = *block_ptr++;
-            i = cell_block_size;
-            while(i--) 
+            i = (nb > cell_block_size) ? cell_block_size : nb;
+            nb -= i;
+            while(i--)
             {
                 m_sorted_y[cell_ptr->y - m_min_y].start++;
                 ++cell_ptr;
             }
-        }
-
-        cell_ptr = *block_ptr++;
-        i = m_num_cells & cell_block_mask;
-        while(i--) 
-        {
-            m_sorted_y[cell_ptr->y - m_min_y].start++;
-            ++cell_ptr;
         }
 
         // Convert the Y-histogram into the array of starting indexes
@@ -696,28 +683,19 @@ namespace agg
 
         // Fill the cell pointer array sorted by Y
         block_ptr = m_cells;
-        nb = m_num_cells >> cell_block_shift;
-        while(nb--)
+        nb = m_num_cells;
+        while(nb)
         {
             cell_ptr = *block_ptr++;
-            i = cell_block_size;
-            while(i--) 
+            i = (nb > cell_block_size) ? cell_block_size : nb;
+            nb -= i;
+            while(i--)
             {
                 sorted_y& curr_y = m_sorted_y[cell_ptr->y - m_min_y];
                 m_sorted_cells[curr_y.start + curr_y.num] = cell_ptr;
                 ++curr_y.num;
                 ++cell_ptr;
             }
-        }
-        
-        cell_ptr = *block_ptr++;
-        i = m_num_cells & cell_block_mask;
-        while(i--) 
-        {
-            sorted_y& curr_y = m_sorted_y[cell_ptr->y - m_min_y];
-            m_sorted_cells[curr_y.start + curr_y.num] = cell_ptr;
-            ++curr_y.num;
-            ++cell_ptr;
         }
 
         // Finally arrange the X-arrays

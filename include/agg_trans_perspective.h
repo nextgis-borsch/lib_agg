@@ -1,27 +1,21 @@
 //----------------------------------------------------------------------------
-// Anti-Grain Geometry (AGG) - Version 2.5
-// A high quality rendering engine for C++
-// Copyright (C) 2002-2006 Maxim Shemanarev
+// Anti-Grain Geometry - Version 2.4
+// Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
+//
+// Permission to copy, use, modify, sell and distribute this software 
+// is granted provided this copyright notice appears in all copies. 
+// This software is provided "as is" without express or implied
+// warranty, and with no claim as to its suitability for any purpose.
+//
+//----------------------------------------------------------------------------
 // Contact: mcseem@antigrain.com
 //          mcseemagg@yahoo.com
-//          http://antigrain.com
-// 
-// AGG is free software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public License
-// as published by the Free Software Foundation; either version 2
-// of the License, or (at your option) any later version.
-// 
-// AGG is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License
-// along with AGG; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, 
-// MA 02110-1301, USA.
+//          http://www.antigrain.com
 //----------------------------------------------------------------------------
-
+//
+// Perspective 2D transformations
+//
+//----------------------------------------------------------------------------
 #ifndef AGG_TRANS_PERSPECTIVE_INCLUDED
 #define AGG_TRANS_PERSPECTIVE_INCLUDED
 
@@ -154,22 +148,22 @@ namespace agg
 
         // Multiply the matrix by another one and return
         // the result in a separete matrix.
-        trans_perspective operator * (const trans_perspective& m)
+        trans_perspective operator * (const trans_perspective& m) const
         {
             return trans_perspective(*this).multiply(m);
         }
-        trans_perspective operator * (const trans_affine& m)
+        trans_perspective operator * (const trans_affine& m) const
         {
             return trans_perspective(*this).multiply(m);
         }
 
         // Multiply the matrix by inverse of another one 
         // and return the result in a separete matrix.
-        trans_perspective operator / (const trans_perspective& m)
+        trans_perspective operator / (const trans_perspective& m) const
         {
             return trans_perspective(*this).multiply_inv(m);
         }
-        trans_perspective operator / (const trans_affine& m)
+        trans_perspective operator / (const trans_affine& m) const
         {
             return trans_perspective(*this).multiply_inv(m);
         }

@@ -1,25 +1,16 @@
 //----------------------------------------------------------------------------
-// Anti-Grain Geometry (AGG) - Version 2.5
-// A high quality rendering engine for C++
-// Copyright (C) 2002-2006 Maxim Shemanarev
+// Anti-Grain Geometry - Version 2.4
+// Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
+//
+// Permission to copy, use, modify, sell and distribute this software 
+// is granted provided this copyright notice appears in all copies. 
+// This software is provided "as is" without express or implied
+// warranty, and with no claim as to its suitability for any purpose.
+//
+//----------------------------------------------------------------------------
 // Contact: mcseem@antigrain.com
 //          mcseemagg@yahoo.com
-//          http://antigrain.com
-// 
-// AGG is free software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public License
-// as published by the Free Software Foundation; either version 2
-// of the License, or (at your option) any later version.
-// 
-// AGG is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License
-// along with AGG; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, 
-// MA 02110-1301, USA.
+//          http://www.antigrain.com
 //----------------------------------------------------------------------------
 
 #ifndef AGG_SPAN_GRADIENT_INCLUDED
@@ -67,8 +58,8 @@ namespace agg
 
         //--------------------------------------------------------------------
         span_gradient(interpolator_type& inter,
-                      const GradientF& gradient_function,
-                      const ColorF& color_function,
+                      GradientF& gradient_function,
+                      ColorF& color_function,
                       double d1, double d2) : 
             m_interpolator(&inter),
             m_gradient_function(&gradient_function),
@@ -86,8 +77,8 @@ namespace agg
 
         //--------------------------------------------------------------------
         void interpolator(interpolator_type& i) { m_interpolator = &i; }
-        void gradient_function(const GradientF& gf) { m_gradient_function = &gf; }
-        void color_function(const ColorF& cf) { m_color_function = &cf; }
+        void gradient_function(GradientF& gf) { m_gradient_function = &gf; }
+        void color_function(ColorF& cf) { m_color_function = &cf; }
         void d1(double v) { m_d1 = iround(v * gradient_subpixel_scale); }
         void d2(double v) { m_d2 = iround(v * gradient_subpixel_scale); }
 
@@ -116,8 +107,8 @@ namespace agg
 
     private:
         interpolator_type* m_interpolator;
-        const GradientF*   m_gradient_function;
-        const ColorF*      m_color_function;
+        GradientF*         m_gradient_function;
+        ColorF*            m_color_function;
         int                m_d1;
         int                m_d2;
     };
@@ -134,12 +125,19 @@ namespace agg
         gradient_linear_color() {}
         gradient_linear_color(const color_type& c1, const color_type& c2, 
                               unsigned size = 256) :
-            m_c1(c1), m_c2(c2), m_size(size) {}
+            m_c1(c1), m_c2(c2), m_size(size)
+				// VFALCO 4/28/09
+				,m_mult(1/(double(size)-1))
+				// VFALCO
+			{}
 
         unsigned size() const { return m_size; }
         color_type operator [] (unsigned v) const 
         {
-            return m_c1.gradient(m_c2, double(v) / double(m_size - 1));
+			// VFALCO 4/28/09 
+            //return m_c1.gradient(m_c2, double(v) / double(m_size - 1));
+            return m_c1.gradient(m_c2, double(v) * m_mult );
+			// VFALCO
         }
 
         void colors(const color_type& c1, const color_type& c2, unsigned size = 256)
@@ -147,11 +145,17 @@ namespace agg
             m_c1 = c1;
             m_c2 = c2;
             m_size = size;
+			// VFALCO 4/28/09
+			m_mult=1/(double(size)-1);
+			// VFALCO
         }
 
         color_type m_c1;
         color_type m_c2;
         unsigned m_size;
+		// VFALCO 4/28/09
+		double m_mult;
+		// VFALCO
     };
 
 

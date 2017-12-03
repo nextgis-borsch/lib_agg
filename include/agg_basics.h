@@ -1,25 +1,16 @@
 //----------------------------------------------------------------------------
-// Anti-Grain Geometry (AGG) - Version 2.5
-// A high quality rendering engine for C++
-// Copyright (C) 2002-2006 Maxim Shemanarev
+// Anti-Grain Geometry - Version 2.4
+// Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
+//
+// Permission to copy, use, modify, sell and distribute this software 
+// is granted provided this copyright notice appears in all copies. 
+// This software is provided "as is" without express or implied
+// warranty, and with no claim as to its suitability for any purpose.
+//
+//----------------------------------------------------------------------------
 // Contact: mcseem@antigrain.com
 //          mcseemagg@yahoo.com
-//          http://antigrain.com
-// 
-// AGG is free software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public License
-// as published by the Free Software Foundation; either version 2
-// of the License, or (at your option) any later version.
-// 
-// AGG is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License
-// along with AGG; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, 
-// MA 02110-1301, USA.
+//          http://www.antigrain.com
 //----------------------------------------------------------------------------
 
 #ifndef AGG_BASICS_INCLUDED
@@ -152,9 +143,17 @@ namespace agg
         __asm mov eax, dword ptr [t]
     }
 #pragma warning(pop)
+    AGG_INLINE int ifloor(double v)
+    {
+        return int(floor(v));
+    }
     AGG_INLINE unsigned ufloor(double v)         //-------ufloor
     {
         return unsigned(floor(v));
+    }
+    AGG_INLINE int iceil(double v)
+    {
+        return int(ceil(v));
     }
     AGG_INLINE unsigned uceil(double v)          //--------uceil
     {
@@ -169,9 +168,17 @@ namespace agg
     {
         return unsigned(v);
     }
+    AGG_INLINE int ifloor(double v)
+    {
+        return int(floor(v));
+    }
     AGG_INLINE unsigned ufloor(double v)
     {
         return unsigned(floor(v));
+    }
+    AGG_INLINE int iceil(double v)
+    {
+        return int(ceil(v));
     }
     AGG_INLINE unsigned uceil(double v)
     {
@@ -186,9 +193,18 @@ namespace agg
     {
         return unsigned(v + 0.5);
     }
+    AGG_INLINE int ifloor(double v)
+    {
+        int i = int(v);
+        return i - (i > v);
+    }
     AGG_INLINE unsigned ufloor(double v)
     {
         return unsigned(v);
+    }
+    AGG_INLINE int iceil(double v)
+    {
+        return int(ceil(v));
     }
     AGG_INLINE unsigned uceil(double v)
     {
@@ -238,7 +254,7 @@ namespace agg
     {
         poly_subpixel_shift = 8,                      //----poly_subpixel_shift
         poly_subpixel_scale = 1<<poly_subpixel_shift, //----poly_subpixel_scale 
-        poly_subpixel_mask  = poly_subpixel_scale-1,  //----poly_subpixel_mask 
+        poly_subpixel_mask  = poly_subpixel_scale-1   //----poly_subpixel_mask 
     };
 
     //----------------------------------------------------------filling_rule_e
@@ -304,6 +320,12 @@ namespace agg
         bool hit_test(T x, T y) const
         {
             return (x >= x1 && x <= x2 && y >= y1 && y <= y2);
+        }
+        
+        bool overlaps(const self_type& r) const
+        {
+            return !(r.x1 > x2 || r.x2 < x1
+                  || r.y1 > y2 || r.y2 < y1);
         }
     };
 
@@ -531,7 +553,6 @@ namespace agg
     {
         return fabs(v1 - v2) <= double(epsilon);
     }
-
 }
 
 

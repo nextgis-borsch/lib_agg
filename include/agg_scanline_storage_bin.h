@@ -1,25 +1,16 @@
 //----------------------------------------------------------------------------
-// Anti-Grain Geometry (AGG) - Version 2.5
-// A high quality rendering engine for C++
-// Copyright (C) 2002-2006 Maxim Shemanarev
+// Anti-Grain Geometry - Version 2.4
+// Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
+//
+// Permission to copy, use, modify, sell and distribute this software 
+// is granted provided this copyright notice appears in all copies. 
+// This software is provided "as is" without express or implied
+// warranty, and with no claim as to its suitability for any purpose.
+//
+//----------------------------------------------------------------------------
 // Contact: mcseem@antigrain.com
 //          mcseemagg@yahoo.com
-//          http://antigrain.com
-// 
-// AGG is free software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public License
-// as published by the Free Software Foundation; either version 2
-// of the License, or (at your option) any later version.
-// 
-// AGG is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License
-// along with AGG; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, 
-// MA 02110-1301, USA.
+//          http://www.antigrain.com
 //----------------------------------------------------------------------------
 //
 // Adaptation for 32-bit screen coordinates has been sponsored by 
@@ -73,9 +64,9 @@ namespace agg
             {
             public:
                 const_iterator() : m_storage(0) {}
-                const_iterator(const embedded_scanline& sl) :
-                    m_storage(sl.m_storage),
-                    m_span_idx(sl.m_scanline.start_span)
+                const_iterator(const embedded_scanline* sl) :
+                    m_storage(sl->m_storage),
+                    m_span_idx(sl->m_scanline.start_span)
                 {
                     m_span = m_storage->span_by_index(m_span_idx);
                 }
@@ -99,7 +90,7 @@ namespace agg
 
 
             //-----------------------------------------------------------
-            embedded_scanline(const scanline_storage_bin& storage) :
+            embedded_scanline(scanline_storage_bin& storage) :
                 m_storage(&storage)
             {
                 setup(0);
@@ -109,7 +100,7 @@ namespace agg
             void     reset(int, int)     {}
             unsigned num_spans()   const { return m_scanline.num_spans;  }
             int      y()           const { return m_scanline.y;          }
-            const_iterator begin() const { return const_iterator(*this); }
+            const_iterator begin() const { return const_iterator(this); }
 
             //-----------------------------------------------------------
             void setup(unsigned scanline_idx)
@@ -119,7 +110,7 @@ namespace agg
             }
 
         private:
-            const scanline_storage_bin* m_storage;
+            scanline_storage_bin*       m_storage;
             scanline_data               m_scanline;
             unsigned                    m_scanline_idx;
         };
@@ -371,9 +362,9 @@ namespace agg
                 };
 
                 const_iterator() : m_ptr(0) {}
-                const_iterator(const embedded_scanline& sl) :
-                    m_ptr(sl.m_ptr),
-                    m_dx(sl.m_dx)
+                const_iterator(const embedded_scanline* sl) :
+                    m_ptr(sl->m_ptr),
+                    m_dx(sl->m_dx)
                 {
                     m_span.x   = read_int32() + m_dx;
                     m_span.len = read_int32();
@@ -414,7 +405,7 @@ namespace agg
             void     reset(int, int)     {}
             unsigned num_spans()   const { return m_num_spans;  }
             int      y()           const { return m_y;          }
-            const_iterator begin() const { return const_iterator(*this); }
+            const_iterator begin() const { return const_iterator(this); }
 
 
         private:

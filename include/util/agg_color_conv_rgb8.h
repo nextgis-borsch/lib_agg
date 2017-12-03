@@ -1,25 +1,16 @@
 //----------------------------------------------------------------------------
-// Anti-Grain Geometry (AGG) - Version 2.5
-// A high quality rendering engine for C++
-// Copyright (C) 2002-2006 Maxim Shemanarev
+// Anti-Grain Geometry - Version 2.4
+// Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
+//
+// Permission to copy, use, modify, sell and distribute this software 
+// is granted provided this copyright notice appears in all copies. 
+// This software is provided "as is" without express or implied
+// warranty, and with no claim as to its suitability for any purpose.
+//
+//----------------------------------------------------------------------------
 // Contact: mcseem@antigrain.com
 //          mcseemagg@yahoo.com
-//          http://antigrain.com
-// 
-// AGG is free software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public License
-// as published by the Free Software Foundation; either version 2
-// of the License, or (at your option) any later version.
-// 
-// AGG is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License
-// along with AGG; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, 
-// MA 02110-1301, USA.
+//          http://www.antigrain.com
 //----------------------------------------------------------------------------
 //
 // A set of functors used with color_conv(). See file agg_color_conv.h
@@ -57,10 +48,13 @@ namespace agg
         {
             do
             {
-                *dst++ = src[2];
-                *dst++ = src[1];
-                *dst++ = src[0];
-                src += 3;
+                int8u tmp[3];
+                tmp[0] = *src++;
+                tmp[1] = *src++;
+                tmp[2] = *src++;
+                *dst++ = tmp[2];
+                *dst++ = tmp[1];
+                *dst++ = tmp[0];
             }
             while(--width);
         }
@@ -84,11 +78,15 @@ namespace agg
         {
             do
             {
-                *dst++ = src[I1];
-                *dst++ = src[I2];
-                *dst++ = src[I3];
-                *dst++ = src[I4]; 
-                src += 4;
+                int8u tmp[4];
+                tmp[0] = *src++;
+                tmp[1] = *src++;
+                tmp[2] = *src++;
+                tmp[3] = *src++;
+                *dst++ = tmp[I1];
+                *dst++ = tmp[I2];
+                *dst++ = tmp[I3];
+                *dst++ = tmp[I4]; 
             }
             while(--width);
         }

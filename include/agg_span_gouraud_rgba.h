@@ -1,25 +1,16 @@
 //----------------------------------------------------------------------------
-// Anti-Grain Geometry (AGG) - Version 2.5
-// A high quality rendering engine for C++
-// Copyright (C) 2002-2006 Maxim Shemanarev
+// Anti-Grain Geometry - Version 2.4
+// Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
+//
+// Permission to copy, use, modify, sell and distribute this software 
+// is granted provided this copyright notice appears in all copies. 
+// This software is provided "as is" without express or implied
+// warranty, and with no claim as to its suitability for any purpose.
+//
+//----------------------------------------------------------------------------
 // Contact: mcseem@antigrain.com
 //          mcseemagg@yahoo.com
-//          http://antigrain.com
-// 
-// AGG is free software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public License
-// as published by the Free Software Foundation; either version 2
-// of the License, or (at your option) any later version.
-// 
-// AGG is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License
-// along with AGG; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, 
-// MA 02110-1301, USA.
+//          http://www.antigrain.com
 //----------------------------------------------------------------------------
 //
 // Adaptation for high precision colors has been sponsored by 
@@ -207,10 +198,10 @@ namespace agg
                 vg = g.y();
                 vb = b.y();
                 va = a.y();
-                if(vr < 0) vr = 0; if(vr > lim) vr = lim;
-                if(vg < 0) vg = 0; if(vg > lim) vg = lim;
-                if(vb < 0) vb = 0; if(vb > lim) vb = lim;
-                if(va < 0) va = 0; if(va > lim) va = lim;
+                if(vr < 0) { vr = 0; }; if(vr > lim) { vr = lim; };
+                if(vg < 0) { vg = 0; }; if(vg > lim) { vg = lim; };
+                if(vb < 0) { vb = 0; }; if(vb > lim) { vb = lim; };
+                if(va < 0) { va = 0; }; if(va > lim) { va = lim; };
                 span->r = (value_type)vr;
                 span->g = (value_type)vg;
                 span->b = (value_type)vb;
@@ -254,10 +245,10 @@ namespace agg
                 vg = g.y();
                 vb = b.y();
                 va = a.y();
-                if(vr < 0) vr = 0; if(vr > lim) vr = lim;
-                if(vg < 0) vg = 0; if(vg > lim) vg = lim;
-                if(vb < 0) vb = 0; if(vb > lim) vb = lim;
-                if(va < 0) va = 0; if(va > lim) va = lim;
+                if(vr < 0) { vr = 0; }; if(vr > lim) { vr = lim; };
+                if(vg < 0) { vg = 0; }; if(vg > lim) { vg = lim; };
+                if(vb < 0) { vb = 0; }; if(vb > lim) { vb = lim; };
+                if(va < 0) { va = 0; }; if(va > lim) { va = lim; };
                 span->r = (value_type)vr;
                 span->g = (value_type)vg;
                 span->b = (value_type)vb;

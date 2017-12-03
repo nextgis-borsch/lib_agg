@@ -1,25 +1,16 @@
 //----------------------------------------------------------------------------
-// Anti-Grain Geometry (AGG) - Version 2.5
-// A high quality rendering engine for C++
-// Copyright (C) 2002-2006 Maxim Shemanarev
+// Anti-Grain Geometry - Version 2.4
+// Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
+//
+// Permission to copy, use, modify, sell and distribute this software 
+// is granted provided this copyright notice appears in all copies. 
+// This software is provided "as is" without express or implied
+// warranty, and with no claim as to its suitability for any purpose.
+//
+//----------------------------------------------------------------------------
 // Contact: mcseem@antigrain.com
 //          mcseemagg@yahoo.com
-//          http://antigrain.com
-// 
-// AGG is free software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public License
-// as published by the Free Software Foundation; either version 2
-// of the License, or (at your option) any later version.
-// 
-// AGG is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License
-// along with AGG; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, 
-// MA 02110-1301, USA.
+//          http://www.antigrain.com
 //----------------------------------------------------------------------------
 //
 // Adaptation for high precision colors has been sponsored by 
@@ -52,11 +43,7 @@ namespace agg
         typedef span_image_filter<source_type, interpolator_type> base_type;
         typedef typename color_type::value_type value_type;
         typedef typename color_type::calc_type calc_type;
-        enum base_scale_e
-        {
-            base_shift = color_type::base_shift,
-            base_mask  = color_type::base_mask
-        };
+        typedef typename color_type::long_type long_type;
 
         //--------------------------------------------------------------------
         span_image_filter_gray_nn() {}
@@ -77,7 +64,7 @@ namespace agg
                     base_type::source().span(x >> image_subpixel_shift, 
                                              y >> image_subpixel_shift, 
                                              1);
-                span->a = base_mask;
+                span->a = color_type::full_value();
                 ++span;
                 ++base_type::interpolator();
             } while(--len);
@@ -98,11 +85,7 @@ namespace agg
         typedef span_image_filter<source_type, interpolator_type> base_type;
         typedef typename color_type::value_type value_type;
         typedef typename color_type::calc_type calc_type;
-        enum base_scale_e
-        {
-            base_shift = color_type::base_shift,
-            base_mask  = color_type::base_mask
-        };
+        typedef typename color_type::long_type long_type;
 
         //--------------------------------------------------------------------
         span_image_filter_gray_bilinear() {}
@@ -117,7 +100,7 @@ namespace agg
         {
             base_type::interpolator().begin(x + base_type::filter_dx_dbl(), 
                                             y + base_type::filter_dy_dbl(), len);
-            calc_type fg;
+            long_type fg;
             const value_type *fg_ptr;
             do
             {
@@ -132,7 +115,7 @@ namespace agg
                 int x_lr = x_hr >> image_subpixel_shift;
                 int y_lr = y_hr >> image_subpixel_shift;
 
-                fg = image_subpixel_scale * image_subpixel_scale / 2;
+                fg = 0;
 
                 x_hr &= image_subpixel_mask;
                 y_hr &= image_subpixel_mask;
@@ -149,8 +132,8 @@ namespace agg
                 fg_ptr = (const value_type*)base_type::source().next_x();
                 fg    += *fg_ptr * x_hr * y_hr;
 
-                span->v = value_type(fg >> (image_subpixel_shift * 2));
-                span->a = base_mask;
+                span->v = color_type::downshift(fg, image_subpixel_shift * 2);
+                span->a = color_type::full_value();
                 ++span;
                 ++base_type::interpolator();
 
@@ -171,11 +154,7 @@ namespace agg
         typedef span_image_filter<source_type, interpolator_type> base_type;
         typedef typename color_type::value_type value_type;
         typedef typename color_type::calc_type calc_type;
-        enum base_scale_e
-        {
-            base_shift = color_type::base_shift,
-            base_mask  = color_type::base_mask
-        };
+        typedef typename color_type::long_type long_type;
 
         //--------------------------------------------------------------------
         span_image_filter_gray_bilinear_clip() {}
@@ -193,8 +172,8 @@ namespace agg
         {
             base_type::interpolator().begin(x + base_type::filter_dx_dbl(), 
                                             y + base_type::filter_dy_dbl(), len);
-            calc_type fg;
-            calc_type src_alpha;
+            long_type fg;
+            long_type src_alpha;
             value_type back_v = m_back_color.v;
             value_type back_a = m_back_color.a;
 
@@ -219,7 +198,7 @@ namespace agg
                 if(x_lr >= 0    && y_lr >= 0 &&
                    x_lr <  maxx && y_lr <  maxy) 
                 {
-                    fg = image_subpixel_scale * image_subpixel_scale / 2;
+                    fg = 0;
 
                     x_hr &= image_subpixel_mask;
                     y_hr &= image_subpixel_mask;
@@ -234,8 +213,8 @@ namespace agg
                     fg += *fg_ptr++ * (image_subpixel_scale - x_hr) * y_hr;
                     fg += *fg_ptr++ * x_hr * y_hr;
 
-                    fg >>= image_subpixel_shift * 2;
-                    src_alpha = base_mask;
+                    fg = color_type::downshift(fg, image_subpixel_shift * 2);
+                    src_alpha = color_type::full_value();
                 }
                 else
                 {
@@ -248,8 +227,7 @@ namespace agg
                     }
                     else
                     {
-                        fg = 
-                        src_alpha = image_subpixel_scale * image_subpixel_scale / 2;
+                        fg = src_alpha = 0;
 
                         x_hr &= image_subpixel_mask;
                         y_hr &= image_subpixel_mask;
@@ -261,7 +239,7 @@ namespace agg
                         {
                             fg += weight * 
                                 *((const value_type*)base_type::source().row_ptr(y_lr) + x_lr);
-                            src_alpha += weight * base_mask;
+                            src_alpha += weight * color_type::full_value();
                         }
                         else
                         {
@@ -277,7 +255,7 @@ namespace agg
                         {
                             fg += weight * 
                                 *((const value_type*)base_type::source().row_ptr(y_lr) + x_lr);
-                            src_alpha += weight * base_mask;
+                            src_alpha += weight * color_type::full_value();
                         }
                         else
                         {
@@ -294,7 +272,7 @@ namespace agg
                         {
                             fg += weight * 
                                 *((const value_type*)base_type::source().row_ptr(y_lr) + x_lr);
-                            src_alpha += weight * base_mask;
+                            src_alpha += weight * color_type::full_value();
                         }
                         else
                         {
@@ -310,7 +288,7 @@ namespace agg
                         {
                             fg += weight * 
                                 *((const value_type*)base_type::source().row_ptr(y_lr) + x_lr);
-                            src_alpha += weight * base_mask;
+                            src_alpha += weight * color_type::full_value();
                         }
                         else
                         {
@@ -318,8 +296,8 @@ namespace agg
                             src_alpha += back_a * weight;
                         }
 
-                        fg        >>= image_subpixel_shift * 2;
-                        src_alpha >>= image_subpixel_shift * 2;
+                        fg = color_type::downshift(fg, image_subpixel_shift * 2);
+                        src_alpha = color_type::downshift(src_alpha, image_subpixel_shift * 2);
                     }
                 }
 
@@ -348,17 +326,13 @@ namespace agg
         typedef span_image_filter<source_type, interpolator_type> base_type;
         typedef typename color_type::value_type value_type;
         typedef typename color_type::calc_type calc_type;
-        enum base_scale_e
-        {
-            base_shift = color_type::base_shift,
-            base_mask  = color_type::base_mask
-        };
+        typedef typename color_type::long_type long_type;
 
         //--------------------------------------------------------------------
         span_image_filter_gray_2x2() {}
         span_image_filter_gray_2x2(source_type& src, 
                                    interpolator_type& inter,
-                                   const image_filter_lut& filter) :
+                                   image_filter_lut& filter) :
             base_type(src, inter, &filter) 
         {}
 
@@ -369,7 +343,7 @@ namespace agg
             base_type::interpolator().begin(x + base_type::filter_dx_dbl(), 
                                             y + base_type::filter_dy_dbl(), len);
 
-            calc_type fg;
+            long_type fg;
 
             const value_type *fg_ptr;
             const int16* weight_array = base_type::filter().weight_array() + 
@@ -389,7 +363,7 @@ namespace agg
                 int y_lr = y_hr >> image_subpixel_shift;
 
                 unsigned weight;
-                fg = image_filter_scale / 2;
+                fg = 0;
 
                 x_hr &= image_subpixel_mask;
                 y_hr &= image_subpixel_mask;
@@ -423,10 +397,10 @@ namespace agg
                 fg += weight * *fg_ptr;
 
                 fg >>= image_filter_shift;
-                if(fg > base_mask) fg = base_mask;
+                if(fg > color_type::full_value()) fg = color_type::full_value();
 
                 span->v = (value_type)fg;
-                span->a = base_mask;
+                span->a = color_type::full_value();
                 ++span;
                 ++base_type::interpolator();
             } while(--len);
@@ -447,17 +421,13 @@ namespace agg
         typedef span_image_filter<source_type, interpolator_type> base_type;
         typedef typename color_type::value_type value_type;
         typedef typename color_type::calc_type calc_type;
-        enum base_scale_e
-        {
-            base_shift = color_type::base_shift,
-            base_mask  = color_type::base_mask
-        };
+        typedef typename color_type::long_type long_type;
 
         //--------------------------------------------------------------------
         span_image_filter_gray() {}
         span_image_filter_gray(source_type& src, 
                                interpolator_type& inter,
-                               const image_filter_lut& filter) :
+                               image_filter_lut& filter) :
             base_type(src, inter, &filter) 
         {}
 
@@ -467,7 +437,7 @@ namespace agg
             base_type::interpolator().begin(x + base_type::filter_dx_dbl(), 
                                             y + base_type::filter_dy_dbl(), len);
 
-            int fg;
+            long_type fg;
             const value_type *fg_ptr;
 
             unsigned     diameter     = base_type::filter().diameter();
@@ -490,7 +460,7 @@ namespace agg
                 int x_lr = x_hr >> image_subpixel_shift;
                 int y_lr = y_hr >> image_subpixel_shift;
 
-                fg = image_filter_scale / 2;
+                fg = 0;
 
                 int x_fract = x_hr & image_subpixel_mask;
                 unsigned y_count = diameter;
@@ -520,11 +490,11 @@ namespace agg
                     fg_ptr = (const value_type*)base_type::source().next_y();
                 }
 
-                fg >>= image_filter_shift;
+                fg = color_type::downshift(fg, image_filter_shift);
                 if(fg < 0) fg = 0;
-                if(fg > base_mask) fg = base_mask;
+                if(fg > color_type::full_value()) fg = color_type::full_value();
                 span->v = (value_type)fg;
-                span->a = base_mask;
+                span->a = color_type::full_value();
 
                 ++span;
                 ++base_type::interpolator();
@@ -549,8 +519,6 @@ namespace agg
         typedef typename color_type::long_type long_type;
         enum base_scale_e
         {
-            base_shift      = color_type::base_shift,
-            base_mask       = color_type::base_mask,
             downscale_shift = image_filter_shift
         };
 
@@ -558,7 +526,7 @@ namespace agg
         span_image_resample_gray_affine() {}
         span_image_resample_gray_affine(source_type& src, 
                                         interpolator_type& inter,
-                                        const image_filter_lut& filter) :
+                                        image_filter_lut& filter) :
             base_type(src, inter, filter) 
         {}
 
@@ -588,7 +556,7 @@ namespace agg
                 x += base_type::filter_dx_int() - radius_x;
                 y += base_type::filter_dy_int() - radius_y;
 
-                fg = image_filter_scale / 2;
+                fg = 0;
 
                 int y_lr = y >> image_subpixel_shift;
                 int y_hr = ((image_subpixel_mask - (y & image_subpixel_mask)) * 
@@ -626,10 +594,10 @@ namespace agg
 
                 fg /= total_weight;
                 if(fg < 0) fg = 0;
-                if(fg > base_mask) fg = base_mask;
+                if(fg > color_type::full_value()) fg = color_type::full_value();
 
                 span->v = (value_type)fg;
-                span->a = base_mask;
+                span->a = color_type::full_value();
 
                 ++span;
                 ++base_type::interpolator();
@@ -653,8 +621,6 @@ namespace agg
         typedef typename color_type::long_type long_type;
         enum base_scale_e
         {
-            base_shift = color_type::base_shift,
-            base_mask  = color_type::base_mask,
             downscale_shift = image_filter_shift
         };
 
@@ -662,7 +628,7 @@ namespace agg
         span_image_resample_gray() {}
         span_image_resample_gray(source_type& src, 
                                  interpolator_type& inter,
-                                 const image_filter_lut& filter) :
+                                 image_filter_lut& filter) :
             base_type(src, inter, filter)
         {}
 
@@ -699,7 +665,7 @@ namespace agg
                 x += base_type::filter_dx_int() - radius_x;
                 y += base_type::filter_dy_int() - radius_y;
 
-                fg = image_filter_scale / 2;
+                fg = 0;
 
                 int y_lr = y >> image_subpixel_shift;
                 int y_hr = ((image_subpixel_mask - (y & image_subpixel_mask)) * 
@@ -736,10 +702,10 @@ namespace agg
 
                 fg /= total_weight;
                 if(fg < 0) fg = 0;
-                if(fg > base_mask) fg = base_mask;
+                if(fg > color_type::full_value()) fg = color_type::full_value();
 
                 span->v = (value_type)fg;
-                span->a = base_mask;
+                span->a = color_type::full_value();
 
                 ++span;
                 ++base_type::interpolator();

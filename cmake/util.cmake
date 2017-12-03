@@ -27,7 +27,7 @@ function(check_version major minor rev)
     set(VERSION_FILE ${CMAKE_CURRENT_SOURCE_DIR}/cmake/util.cmake)
 
     set(AGG_MAJOR 2)
-    set(AGG_MINOR 5)
+    set(AGG_MINOR 4)
     set(AGG_REV 0)
 
     set(${major} ${AGG_MAJOR} PARENT_SCOPE)

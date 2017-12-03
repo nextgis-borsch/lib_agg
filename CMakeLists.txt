@@ -203,6 +203,8 @@ set(PUBLIC_HDRS
     include/agg_vpgen_clip_polygon.h
     include/agg_vpgen_clip_polyline.h
     include/agg_vpgen_segmentator.h
+    include/agg_pixfmt_base.h
+    include/agg_rasterizer_scanline_aa_nogamma.h
 )
 
 set(CTRL_PUB_HDRS
@@ -274,6 +276,7 @@ set(SRCS
     src/agg_bezier_arc.cpp
     src/agg_bspline.cpp
     src/agg_curves.cpp
+    src/agg_color_rgba.cpp
     src/agg_embedded_raster_fonts.cpp
     src/agg_gsv_text.cpp
     src/agg_image_filters.cpp

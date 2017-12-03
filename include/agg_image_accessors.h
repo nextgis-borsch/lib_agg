@@ -1,25 +1,16 @@
 //----------------------------------------------------------------------------
-// Anti-Grain Geometry (AGG) - Version 2.5
-// A high quality rendering engine for C++
-// Copyright (C) 2002-2006 Maxim Shemanarev
+// Anti-Grain Geometry - Version 2.4
+// Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
+//
+// Permission to copy, use, modify, sell and distribute this software 
+// is granted provided this copyright notice appears in all copies. 
+// This software is provided "as is" without express or implied
+// warranty, and with no claim as to its suitability for any purpose.
+//
+//----------------------------------------------------------------------------
 // Contact: mcseem@antigrain.com
 //          mcseemagg@yahoo.com
-//          http://antigrain.com
-// 
-// AGG is free software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public License
-// as published by the Free Software Foundation; either version 2
-// of the License, or (at your option) any later version.
-// 
-// AGG is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License
-// along with AGG; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, 
-// MA 02110-1301, USA.
+//          http://www.antigrain.com
 //----------------------------------------------------------------------------
 
 #ifndef AGG_IMAGE_ACCESSORS_INCLUDED
@@ -41,14 +32,14 @@ namespace agg
         enum pix_width_e { pix_width = pixfmt_type::pix_width };
 
         image_accessor_clip() {}
-        explicit image_accessor_clip(const pixfmt_type& pixf, 
+        explicit image_accessor_clip(pixfmt_type& pixf, 
                                      const color_type& bk) : 
             m_pixf(&pixf)
         {
             pixfmt_type::make_pix(m_bk_buf, bk);
         }
 
-        void attach(const pixfmt_type& pixf)
+        void attach(pixfmt_type& pixf)
         {
             m_pixf = &pixf;
         }
@@ -105,7 +96,7 @@ namespace agg
 
     private:
         const pixfmt_type* m_pixf;
-        int8u              m_bk_buf[4];
+        int8u              m_bk_buf[pix_width];
         int                m_x, m_x0, m_y;
         const int8u*       m_pix_ptr;
     };
@@ -124,11 +115,11 @@ namespace agg
         enum pix_width_e { pix_width = pixfmt_type::pix_width };
 
         image_accessor_no_clip() {}
-        explicit image_accessor_no_clip(const pixfmt_type& pixf) : 
+        explicit image_accessor_no_clip(pixfmt_type& pixf) : 
             m_pixf(&pixf) 
         {}
 
-        void attach(const pixfmt_type& pixf)
+        void attach(pixfmt_type& pixf)
         {
             m_pixf = &pixf;
         }
@@ -171,11 +162,11 @@ namespace agg
         enum pix_width_e { pix_width = pixfmt_type::pix_width };
 
         image_accessor_clone() {}
-        explicit image_accessor_clone(const pixfmt_type& pixf) : 
+        explicit image_accessor_clone(pixfmt_type& pixf) : 
             m_pixf(&pixf) 
         {}
 
-        void attach(const pixfmt_type& pixf)
+        void attach(pixfmt_type& pixf)
         {
             m_pixf = &pixf;
         }
@@ -247,13 +238,13 @@ namespace agg
         enum pix_width_e { pix_width = pixfmt_type::pix_width };
 
         image_accessor_wrap() {}
-        explicit image_accessor_wrap(const pixfmt_type& pixf) : 
+        explicit image_accessor_wrap(pixfmt_type& pixf) : 
             m_pixf(&pixf), 
             m_wrap_x(pixf.width()), 
             m_wrap_y(pixf.height())
         {}
 
-        void attach(const pixfmt_type& pixf)
+        void attach(pixfmt_type& pixf)
         {
             m_pixf = &pixf;
         }
@@ -261,7 +252,7 @@ namespace agg
         AGG_INLINE const int8u* span(int x, int y, unsigned)
         {
             m_x = x;
-            m_row_ptr = m_pixf->row_ptr(m_wrap_y(y));
+            m_row_ptr = m_pixf->pix_ptr(0, m_wrap_y(y));
             return m_row_ptr + m_wrap_x(x) * pix_width;
         }
 
@@ -273,7 +264,7 @@ namespace agg
 
         AGG_INLINE const int8u* next_y()
         {
-            m_row_ptr = m_pixf->row_ptr(++m_wrap_y);
+            m_row_ptr = m_pixf->pix_ptr(0, ++m_wrap_y);
             return m_row_ptr + m_wrap_x(m_x) * pix_width;
         }
 
