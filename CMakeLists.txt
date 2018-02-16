@@ -3,7 +3,7 @@
 # Purpose:  CMake build scripts
 # Author:   Dmitry Baryshnikov, dmitry.baryshnikov@nexgis.com
 ################################################################################
-# Copyright (C) 2017, NextGIS <info@nextgis.com>
+# Copyright (C) 2017-2018, NextGIS <info@nextgis.com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -28,6 +28,14 @@ cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
 
 project(agg)
 
+if(NOT DEFINED PACKAGE_VENDOR)
+    set(PACKAGE_VENDOR NextGIS)
+endif()
+
+if(NOT DEFINED PACKAGE_BUGREPORT)
+    set(PACKAGE_BUGREPORT info@nextgis.com)
+endif()
+
 # Some init settings
 set(CMAKE_COLOR_MAKEFILE ON)
 # Set path to additional CMake modules
@@ -39,9 +47,10 @@ if(OSX_FRAMEWORK AND (BUILD_SHARED_LIBS OR BUILD_STATIC_LIBS))
 endif()
 
 if(OSX_FRAMEWORK)
-  set(INSTALL_BIN_DIR "${CMAKE_INSTALL_PREFIX}/bin" CACHE INTERNAL "Installation directory for executables" FORCE)
-  set(INSTALL_LIB_DIR "${CMAKE_INSTALL_PREFIX}/Library/Frameworks" CACHE INTERNAL "Installation directory for libraries" FORCE)
+  set(INSTALL_BIN_DIR "bin" CACHE INTERNAL "Installation directory for executables" FORCE)
+  set(INSTALL_LIB_DIR "Library/Frameworks" CACHE INTERNAL "Installation directory for libraries" FORCE)
   set(INSTALL_INC_DIR "${INSTALL_LIB_DIR}/${PROJECT_NAME}.framework/Headers" CACHE INTERNAL "Installation directory for headers" FORCE)
+  set(INSTALL_CMAKECONF_DIR ${INSTALL_LIB_DIR}/${PROJECT_NAME}.framework/Resources/CMake CACHE INTERNAL "Installation directory for cmake config files" FORCE)
   set(SKIP_INSTALL_HEADERS ON)
   set(SKIP_INSTALL_FILES ON)
   set(SKIP_INSTALL_EXPORT ON)
@@ -49,10 +58,11 @@ if(OSX_FRAMEWORK)
 else()
     include(GNUInstallDirs)
 
-    set(INSTALL_BIN_DIR ${CMAKE_INSTALL_FULL_BINDIR} CACHE INTERNAL "Installation directory for executables" FORCE)
-    set(INSTALL_LIB_DIR ${CMAKE_INSTALL_FULL_LIBDIR} CACHE INTERNAL "Installation directory for libraries" FORCE)
-    set(INSTALL_INC_DIR ${CMAKE_INSTALL_FULL_INCLUDEDIR}/agg2 CACHE INTERNAL "Installation directory for headers" FORCE)
-    set(INSTALL_DOC_DIR ${CMAKE_INSTALL_FULL_DOCDIR} CACHE INTERNAL "Share directory for data" FORCE)
+    set(INSTALL_BIN_DIR ${CMAKE_INSTALL_BINDIR} CACHE INTERNAL "Installation directory for executables" FORCE)
+    set(INSTALL_LIB_DIR ${CMAKE_INSTALL_LIBDIR} CACHE INTERNAL "Installation directory for libraries" FORCE)
+    set(INSTALL_INC_DIR ${CMAKE_INSTALL_INCLUDEDIR}/agg2 CACHE INTERNAL "Installation directory for headers" FORCE)
+    set(INSTALL_DOC_DIR ${CMAKE_INSTALL_DOCDIR} CACHE INTERNAL "Share directory for data" FORCE)
+    set(INSTALL_CMAKECONF_DIR ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/CMake CACHE INTERNAL "Installation directory for cmake config files" FORCE)
 endif()
 
 if(CMAKE_GENERATOR_TOOLSET MATCHES "v([0-9]+)_xp")
@@ -344,28 +354,6 @@ endif()
 
 target_link_extlibraries(${LIB_NAME})
 
-if (REGISTER_PACKAGE)
-    export(TARGETS ${LIB_NAME} FILE ${LIB_NAME}-exports.cmake)
-
-    set(EXPORT_PACKAGE_NAME AGG)
-    string(TOUPPER ${EXPORT_PACKAGE_NAME} EXPORT_PACKAGE_NAME_UPPER)
-    set(EXPORT_PACKAGE_LIB_NAME ${LIB_NAME})
-
-    export(PACKAGE ${EXPORT_PACKAGE_NAME})
-
-    include(CMakePackageConfigHelpers)
-    configure_package_config_file(
-        ${CMAKE_SOURCE_DIR}/cmake/PackageConfig.cmake.in
-        ${CMAKE_CURRENT_BINARY_DIR}/${EXPORT_PACKAGE_NAME}Config.cmake
-        INSTALL_DESTINATION ${CMAKE_CURRENT_BINARY_DIR} )
-    write_basic_package_version_file(
-        ${CMAKE_CURRENT_BINARY_DIR}/${EXPORT_PACKAGE_NAME}ConfigVersion.cmake
-        VERSION ${VERSION}
-        COMPATIBILITY AnyNewerVersion )
-else()
-    export(TARGETS ${LIB_NAME} FILE ${LIB_NAME}-exports.cmake EXPORT_LINK_INTERFACE_LIBRARIES)
-endif()
-
 add_custom_target(uninstall COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
 
 if(NOT CYGWIN)
@@ -377,14 +365,20 @@ if(UNIX)
     set_target_properties(${LIB_NAME} PROPERTIES OUTPUT_NAME ${PROJECT_NAME})
 endif()
 
+set(PACKAGE_NAME ${PROJECT_NAME})
+string(TOUPPER ${PACKAGE_NAME} PACKAGE_UPPER_NAME)
+
 if(NOT SKIP_INSTALL_LIBRARIES AND NOT SKIP_INSTALL_ALL)
     install(TARGETS ${LIB_NAME}
+        EXPORT ${PACKAGE_UPPER_NAME}Targets
         RUNTIME DESTINATION ${INSTALL_BIN_DIR} COMPONENT applications
         ARCHIVE DESTINATION ${INSTALL_LIB_DIR} COMPONENT libraries
         LIBRARY DESTINATION ${INSTALL_LIB_DIR} COMPONENT libraries
+        INCLUDES DESTINATION ${INSTALL_INC_DIR}
         FRAMEWORK DESTINATION ${INSTALL_LIB_DIR}
     )
 endif()
+
 if(NOT SKIP_INSTALL_HEADERS AND NOT SKIP_INSTALL_ALL)
     install(FILES ${PUBLIC_HDRS} DESTINATION "${INSTALL_INC_DIR}")
     install(FILES ${CTRL_PUB_HDRS} DESTINATION "${INSTALL_INC_DIR}/ctrl")
@@ -392,3 +386,53 @@ if(NOT SKIP_INSTALL_HEADERS AND NOT SKIP_INSTALL_ALL)
     install(FILES ${UTIL_PUB_HDRS} DESTINATION "${INSTALL_INC_DIR}/util")
     install(FILES ${DOCS} DESTINATION "${INSTALL_DOC_DIR}/lib${PROJECT_NAME}")
 endif()
+
+# Export package ===============================================================
+
+# Add path to includes to build-tree export
+target_include_directories(${LIB_NAME} PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
+)
+
+# Add all targets to the build-tree export set
+export(TARGETS ${LIB_NAME}
+    FILE ${PROJECT_BINARY_DIR}/${PACKAGE_UPPER_NAME}Targets.cmake)
+
+if(REGISTER_PACKAGE)
+    # Export the package for use from the build-tree
+    # (this registers the build-tree with a global CMake-registry)
+    export(PACKAGE ${PACKAGE_UPPER_NAME})
+endif()
+
+# Create the ZLIBConfig.cmake file
+configure_file(cmake/PackageConfig.cmake.in
+    ${PROJECT_BINARY_DIR}/${PACKAGE_UPPER_NAME}Config.cmake @ONLY)
+
+if(NOT SKIP_INSTALL_LIBRARIES AND NOT SKIP_INSTALL_ALL)
+    # Install the <Package>Config.cmake
+    install(FILES
+      ${PROJECT_BINARY_DIR}/${PACKAGE_UPPER_NAME}Config.cmake
+      DESTINATION ${INSTALL_CMAKECONF_DIR} COMPONENT dev)
+
+    # Install the export set for use with the install-tree
+    install(EXPORT ${PACKAGE_UPPER_NAME}Targets DESTINATION ${INSTALL_CMAKECONF_DIR} COMPONENT dev)
+endif()
+
+# Archiving ====================================================================
+
+set(CPACK_PACKAGE_NAME "${PACKAGE_NAME}")
+set(CPACK_PACKAGE_VENDOR "${PACKAGE_VENDOR}")
+set(CPACK_PACKAGE_VERSION "${VERSION}")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "${PACKAGE_NAME} Installation")
+set(CPACK_PACKAGE_RELOCATABLE TRUE)
+set(CPACK_ARCHIVE_COMPONENT_INSTALL ON)
+set(CPACK_GENERATOR "ZIP")
+set(CPACK_MONOLITHIC_INSTALL ON)
+set(CPACK_STRIP_FILES TRUE)
+
+# Get cpack zip archive name
+get_cpack_filename(${VERSION} PROJECT_CPACK_FILENAME)
+set(CPACK_PACKAGE_FILE_NAME ${PROJECT_CPACK_FILENAME})
+
+include(CPack)
