@@ -1,6 +1,6 @@
 # Anti-Grain Geometry (AGG) with modified build scripts
 
-This is [agg](http://www.antigrain.com/) library with modifications in build scripts to support
+This is [Anti-Grain Geometry (AGG)](http://www.antigrain.com/) library with modifications in build scripts to support
 [NextGIS Borsch](https://github.com/nextgis-borsch/borsch) building system. NextGIS Borsch helps to resolve
 dependencies of building C/C++ libraries and applications. NextGIS Borsch is based on [CMake](https://cmake.org/).
 
