@@ -254,11 +254,11 @@ endif()
 
 if(WIN32)
     set(PUBLIC_HDRS ${PUBLIC_HDRS}
-        font_win32tt/agg_font_win32_tt.h
+        font_win32_tt/agg_font_win32_tt.h
     )
 
     set(SRCS ${SRCS}
-        font_win32tt/agg_font_win32_tt.cpp
+        font_win32_tt/agg_font_win32_tt.cpp
         src/platform/win32/agg_platform_support.cpp
         src/platform/win32/agg_win32_bmp.cpp
     )
