@@ -2,8 +2,8 @@
 // Anti-Grain Geometry - Version 2.4
 // Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
 //
-// Permission to copy, use, modify, sell and distribute this software 
-// is granted provided this copyright notice appears in all copies. 
+// Permission to copy, use, modify, sell and distribute this software
+// is granted provided this copyright notice appears in all copies.
 // This software is provided "as is" without express or implied
 // warranty, and with no claim as to its suitability for any purpose.
 //
@@ -35,7 +35,7 @@ namespace agg
 {
 
     //--------------------------------------------------------slider_ctrl_impl
-    class slider_ctrl_impl : public ctrl
+    class AGG_EXTERN slider_ctrl_impl : public ctrl
     {
     public:
         slider_ctrl_impl(double x1, double y1, double x2, double y2, bool flip_y=false);
@@ -101,7 +101,7 @@ namespace agg
 
 
     //----------------------------------------------------------slider_ctrl
-    template<class ColorT> class slider_ctrl : public slider_ctrl_impl
+    template<class ColorT> class AGG_EXTERN slider_ctrl : public slider_ctrl_impl
     {
     public:
         slider_ctrl(double x1, double y1, double x2, double y2, bool flip_y=false) :
@@ -119,12 +119,12 @@ namespace agg
             m_colors[4] = &m_pointer_color;
             m_colors[5] = &m_text_color;
         }
-          
+
 
         void background_color(const ColorT& c) { m_background_color = c; }
         void pointer_color(const ColorT& c) { m_pointer_color = c; }
 
-        const ColorT& color(unsigned i) const { return *m_colors[i]; } 
+        const ColorT& color(unsigned i) const { return *m_colors[i]; }
 
     private:
         slider_ctrl(const slider_ctrl<ColorT>&);
@@ -147,4 +147,3 @@ namespace agg
 
 
 #endif
-

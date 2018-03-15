@@ -2,8 +2,8 @@
 // Anti-Grain Geometry - Version 2.4
 // Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
 //
-// Permission to copy, use, modify, sell and distribute this software 
-// is granted provided this copyright notice appears in all copies. 
+// Permission to copy, use, modify, sell and distribute this software
+// is granted provided this copyright notice appears in all copies.
 // This software is provided "as is" without express or implied
 // warranty, and with no claim as to its suitability for any purpose.
 //
@@ -21,9 +21,9 @@
 namespace agg
 {
     //=============================================================conv_concat
-    // Concatenation of two paths. Usually used to combine lines or curves 
+    // Concatenation of two paths. Usually used to combine lines or curves
     // with markers such as arrowheads
-    template<class VS1, class VS2> class conv_concat
+    template<class VS1, class VS2> class AGG_EXTERN conv_concat
     {
     public:
         conv_concat(VS1& source1, VS2& source2) :
@@ -33,7 +33,7 @@ namespace agg
 
 
         void rewind(unsigned path_id)
-        { 
+        {
             m_source1->rewind(path_id);
             m_source2->rewind(0);
             m_status = 0;
@@ -59,7 +59,7 @@ namespace agg
 
     private:
         conv_concat(const conv_concat<VS1, VS2>&);
-        const conv_concat<VS1, VS2>& 
+        const conv_concat<VS1, VS2>&
             operator = (const conv_concat<VS1, VS2>&);
 
         VS1* m_source1;

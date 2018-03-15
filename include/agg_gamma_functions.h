@@ -2,8 +2,8 @@
 // Anti-Grain Geometry - Version 2.4
 // Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
 //
-// Permission to copy, use, modify, sell and distribute this software 
-// is granted provided this copyright notice appears in all copies. 
+// Permission to copy, use, modify, sell and distribute this software
+// is granted provided this copyright notice appears in all copies.
 // This software is provided "as is" without express or implied
 // warranty, and with no claim as to its suitability for any purpose.
 //
@@ -29,7 +29,7 @@ namespace agg
 
 
     //==============================================================gamma_power
-    class gamma_power
+    class AGG_EXTERN gamma_power
     {
     public:
         gamma_power() : m_gamma(1.0) {}
@@ -49,7 +49,7 @@ namespace agg
 
 
     //==========================================================gamma_threshold
-    class gamma_threshold
+    class AGG_EXTERN gamma_threshold
     {
     public:
         gamma_threshold() : m_threshold(0.5) {}
@@ -69,7 +69,7 @@ namespace agg
 
 
     //============================================================gamma_linear
-    class gamma_linear
+    class AGG_EXTERN gamma_linear
     {
     public:
         gamma_linear() : m_start(0.0), m_end(1.0) {}
@@ -127,6 +127,3 @@ namespace agg
 }
 
 #endif
-
-
-

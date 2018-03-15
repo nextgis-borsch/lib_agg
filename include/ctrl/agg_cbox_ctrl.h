@@ -2,8 +2,8 @@
 // Anti-Grain Geometry - Version 2.4
 // Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
 //
-// Permission to copy, use, modify, sell and distribute this software 
-// is granted provided this copyright notice appears in all copies. 
+// Permission to copy, use, modify, sell and distribute this software
+// is granted provided this copyright notice appears in all copies.
 // This software is provided "as is" without express or implied
 // warranty, and with no claim as to its suitability for any purpose.
 //
@@ -33,7 +33,7 @@ namespace agg
 {
 
     //----------------------------------------------------------cbox_ctrl_impl
-    class cbox_ctrl_impl : public ctrl
+    class AGG_EXTERN cbox_ctrl_impl : public ctrl
     {
     public:
         cbox_ctrl_impl(double x, double y, const char* label, bool flip_y=false);
@@ -76,7 +76,7 @@ namespace agg
 
 
     //----------------------------------------------------------cbox_ctrl_impl
-    template<class ColorT> class cbox_ctrl : public cbox_ctrl_impl
+    template<class ColorT> class AGG_EXTERN cbox_ctrl : public cbox_ctrl_impl
     {
     public:
         cbox_ctrl(double x, double y, const char* label, bool flip_y=false) :
@@ -89,12 +89,12 @@ namespace agg
             m_colors[1] = &m_text_color;
             m_colors[2] = &m_active_color;
         }
-          
+
         void text_color(const ColorT& c) { m_text_color = c; }
         void inactive_color(const ColorT& c) { m_inactive_color = c; }
         void active_color(const ColorT& c) { m_active_color = c; }
 
-        const ColorT& color(unsigned i) const { return *m_colors[i]; } 
+        const ColorT& color(unsigned i) const { return *m_colors[i]; }
 
     private:
         cbox_ctrl(const cbox_ctrl<ColorT>&);

@@ -2,8 +2,8 @@
 // Anti-Grain Geometry - Version 2.4
 // Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
 //
-// Permission to copy, use, modify, sell and distribute this software 
-// is granted provided this copyright notice appears in all copies. 
+// Permission to copy, use, modify, sell and distribute this software
+// is granted provided this copyright notice appears in all copies.
 // This software is provided "as is" without express or implied
 // warranty, and with no claim as to its suitability for any purpose.
 //
@@ -28,7 +28,7 @@ namespace agg
     // Terminal markers generator (arrowhead/arrowtail)
     //
     //------------------------------------------------------------------------
-    class vcgen_markers_term
+    class AGG_EXTERN vcgen_markers_term
     {
     public:
         vcgen_markers_term() : m_curr_id(0), m_curr_idx(0) {}
@@ -53,7 +53,7 @@ namespace agg
             coord_type(double x_, double y_) : x(x_), y(y_) {}
         };
 
-        typedef pod_bvector<coord_type, 6> coord_storage; 
+        typedef pod_bvector<coord_type, 6> coord_storage;
 
         coord_storage m_markers;
         unsigned      m_curr_id;

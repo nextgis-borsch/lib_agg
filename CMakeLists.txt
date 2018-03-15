@@ -47,14 +47,14 @@ if(OSX_FRAMEWORK AND (BUILD_SHARED_LIBS OR BUILD_STATIC_LIBS))
 endif()
 
 if(OSX_FRAMEWORK)
-  set(INSTALL_BIN_DIR "bin" CACHE INTERNAL "Installation directory for executables" FORCE)
-  set(INSTALL_LIB_DIR "Library/Frameworks" CACHE INTERNAL "Installation directory for libraries" FORCE)
-  set(INSTALL_INC_DIR "${INSTALL_LIB_DIR}/${PROJECT_NAME}.framework/Headers" CACHE INTERNAL "Installation directory for headers" FORCE)
-  set(INSTALL_CMAKECONF_DIR ${INSTALL_LIB_DIR}/${PROJECT_NAME}.framework/Resources/CMake CACHE INTERNAL "Installation directory for cmake config files" FORCE)
-  set(SKIP_INSTALL_HEADERS ON)
-  set(SKIP_INSTALL_FILES ON)
-  set(SKIP_INSTALL_EXPORT ON)
-  set(CMAKE_MACOSX_RPATH ON)
+    set(INSTALL_BIN_DIR "bin" CACHE INTERNAL "Installation directory for executables" FORCE)
+    set(INSTALL_LIB_DIR "Library/Frameworks" CACHE INTERNAL "Installation directory for libraries" FORCE)
+    set(INSTALL_INC_DIR "${INSTALL_LIB_DIR}/${PROJECT_NAME}.framework/Headers" CACHE INTERNAL "Installation directory for headers" FORCE)
+    set(INSTALL_CMAKECONF_DIR ${INSTALL_LIB_DIR}/${PROJECT_NAME}.framework/Resources/CMake CACHE INTERNAL "Installation directory for cmake config files" FORCE)
+    set(SKIP_INSTALL_HEADERS ON)
+    set(SKIP_INSTALL_FILES ON)
+    set(SKIP_INSTALL_EXPORT ON)
+    set(CMAKE_MACOSX_RPATH ON)
 else()
     include(GNUInstallDirs)
 
@@ -323,7 +323,8 @@ if(BUILD_SHARED_LIBS)
     add_library(${LIB_NAME} SHARED ${SRCS} ${PUBLIC_HDRS} ${CTRL_PUB_HDRS} ${PLAT_PUB_HDRS} ${UTIL_PUB_HDRS})
     set_target_properties (${LIB_NAME} PROPERTIES
         VERSION ${VERSION}
-        SOVERSION ${AGG_MAJOR_VERSION})
+        SOVERSION ${AGG_MAJOR_VERSION}
+        DEFINE_SYMBOL AGG_EXPORTS)
 elseif(OSX_FRAMEWORK)
     add_library(${LIB_NAME} SHARED ${SRCS} ${PUBLIC_HDRS} ${CTRL_PUB_HDRS} ${PLAT_PUB_HDRS} ${UTIL_PUB_HDRS})
     set_property(SOURCE ${CTRL_PUB_HDRS}

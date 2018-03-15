@@ -2,8 +2,8 @@
 // Anti-Grain Geometry - Version 2.4
 // Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
 //
-// Permission to copy, use, modify, sell and distribute this software 
-// is granted provided this copyright notice appears in all copies. 
+// Permission to copy, use, modify, sell and distribute this software
+// is granted provided this copyright notice appears in all copies.
 // This software is provided "as is" without express or implied
 // warranty, and with no claim as to its suitability for any purpose.
 //
@@ -33,13 +33,13 @@ namespace agg
 {
 
     //--------------------------------------------------------bezier_ctrl_impl
-    class bezier_ctrl_impl : public ctrl
+    class AGG_EXTERN bezier_ctrl_impl : public ctrl
     {
     public:
         bezier_ctrl_impl();
 
-        void curve(double x1, double y1, 
-                   double x2, double y2, 
+        void curve(double x1, double y1,
+                   double x2, double y2,
                    double x3, double y3,
                    double x4, double y4);
         curve4& curve();
@@ -98,9 +98,9 @@ namespace agg
             m_color(rgba(0.0, 0.0, 0.0))
         {
         }
-          
+
         void line_color(const ColorT& c) { m_color = c; }
-        const ColorT& color(unsigned i) const { return m_color; } 
+        const ColorT& color(unsigned i) const { return m_color; }
 
     private:
         bezier_ctrl(const bezier_ctrl<ColorT>&);
@@ -114,13 +114,13 @@ namespace agg
 
 
     //--------------------------------------------------------curve3_ctrl_impl
-    class curve3_ctrl_impl : public ctrl
+    class AGG_EXTERN curve3_ctrl_impl : public ctrl
     {
     public:
         curve3_ctrl_impl();
 
-        void curve(double x1, double y1, 
-                   double x2, double y2, 
+        void curve(double x1, double y1,
+                   double x2, double y2,
                    double x3, double y3);
         curve3& curve();
 
@@ -167,16 +167,16 @@ namespace agg
 
 
     //----------------------------------------------------------curve3_ctrl
-    template<class ColorT> class curve3_ctrl : public curve3_ctrl_impl
+    template<class ColorT> class AGG_EXTERN curve3_ctrl : public curve3_ctrl_impl
     {
     public:
         curve3_ctrl() :
             m_color(rgba(0.0, 0.0, 0.0))
         {
         }
-          
+
         void line_color(const ColorT& c) { m_color = c; }
-        const ColorT& color(unsigned i) const { return m_color; } 
+        const ColorT& color(unsigned i) const { return m_color; }
 
     private:
         curve3_ctrl(const curve3_ctrl<ColorT>&);
@@ -193,4 +193,3 @@ namespace agg
 
 
 #endif
-

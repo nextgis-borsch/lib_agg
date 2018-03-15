@@ -2,8 +2,8 @@
 // Anti-Grain Geometry - Version 2.4
 // Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
 //
-// Permission to copy, use, modify, sell and distribute this software 
-// is granted provided this copyright notice appears in all copies. 
+// Permission to copy, use, modify, sell and distribute this software
+// is granted provided this copyright notice appears in all copies.
 // This software is provided "as is" without express or implied
 // warranty, and with no claim as to its suitability for any purpose.
 //
@@ -32,7 +32,7 @@ namespace agg
 {
 
     //------------------------------------------------------------------------
-    class scale_ctrl_impl : public ctrl
+    class AGG_EXTERN scale_ctrl_impl : public ctrl
     {
         enum move_e
         {
@@ -47,10 +47,10 @@ namespace agg
 
         void border_thickness(double t, double extra=0.0);
         void resize(double x1, double y1, double x2, double y2);
-        
+
         double min_delta() const { return m_min_d; }
         void min_delta(double d) { m_min_d = d; }
-        
+
         double value1() const { return m_value1; }
         void value1(double value);
 
@@ -98,7 +98,7 @@ namespace agg
 
 
     //------------------------------------------------------------------------
-    template<class ColorT> class scale_ctrl : public scale_ctrl_impl
+    template<class ColorT> class AGG_EXTERN scale_ctrl : public scale_ctrl_impl
     {
     public:
         scale_ctrl(double x1, double y1, double x2, double y2, bool flip_y=false) :
@@ -114,14 +114,14 @@ namespace agg
             m_colors[3] = &m_pointers_color;
             m_colors[4] = &m_slider_color;
         }
-          
+
 
         void background_color(const ColorT& c) { m_background_color = c; }
         void border_color(const ColorT& c)     { m_border_color = c; }
         void pointers_color(const ColorT& c)   { m_pointers_color = c; }
         void slider_color(const ColorT& c)     { m_slider_color = c; }
 
-        const ColorT& color(unsigned i) const { return *m_colors[i]; } 
+        const ColorT& color(unsigned i) const { return *m_colors[i]; }
 
     private:
         scale_ctrl(const scale_ctrl<ColorT>&);
@@ -143,4 +143,3 @@ namespace agg
 
 
 #endif
-

@@ -2,8 +2,8 @@
 // Anti-Grain Geometry - Version 2.4
 // Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
 //
-// Permission to copy, use, modify, sell and distribute this software 
-// is granted provided this copyright notice appears in all copies. 
+// Permission to copy, use, modify, sell and distribute this software
+// is granted provided this copyright notice appears in all copies.
 // This software is provided "as is" without express or implied
 // warranty, and with no claim as to its suitability for any purpose.
 //
@@ -25,10 +25,10 @@ namespace agg
     //
     // See Implementation agg_vpgen_clip_polyline.cpp
     //
-    class vpgen_clip_polyline
+    class AGG_EXTERN vpgen_clip_polyline
     {
     public:
-        vpgen_clip_polyline() : 
+        vpgen_clip_polyline() :
             m_clip_box(0, 0, 1, 1),
             m_x1(0),
             m_y1(0),

@@ -2,8 +2,8 @@
 // Anti-Grain Geometry - Version 2.4
 // Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
 //
-// Permission to copy, use, modify, sell and distribute this software 
-// is granted provided this copyright notice appears in all copies. 
+// Permission to copy, use, modify, sell and distribute this software
+// is granted provided this copyright notice appears in all copies.
 // This software is provided "as is" without express or implied
 // warranty, and with no claim as to its suitability for any purpose.
 //
@@ -27,7 +27,7 @@ namespace agg
 {
 
     //===================================================dda_line_interpolator
-    template<int FractionShift, int YShift=0> class dda_line_interpolator
+    template<int FractionShift, int YShift=0> class AGG_EXTERN dda_line_interpolator
     {
     public:
         //--------------------------------------------------------------------
@@ -82,7 +82,7 @@ namespace agg
 
 
     //=================================================dda2_line_interpolator
-    class dda2_line_interpolator
+    class AGG_EXTERN dda2_line_interpolator
     {
     public:
         typedef int save_data_type;
@@ -214,7 +214,7 @@ namespace agg
 
 
     //---------------------------------------------line_bresenham_interpolator
-    class line_bresenham_interpolator
+    class AGG_EXTERN line_bresenham_interpolator
     {
     public:
         enum subpixel_scale_e
@@ -234,15 +234,15 @@ namespace agg
             m_x2_lr(line_lr(x2)),
             m_y2_lr(line_lr(y2)),
             m_ver(abs(m_x2_lr - m_x1_lr) < abs(m_y2_lr - m_y1_lr)),
-            m_len(m_ver ? abs(m_y2_lr - m_y1_lr) : 
+            m_len(m_ver ? abs(m_y2_lr - m_y1_lr) :
                           abs(m_x2_lr - m_x1_lr)),
             m_inc(m_ver ? ((y2 > y1) ? 1 : -1) : ((x2 > x1) ? 1 : -1)),
-            m_interpolator(m_ver ? x1 : y1, 
-                           m_ver ? x2 : y2, 
+            m_interpolator(m_ver ? x1 : y1,
+                           m_ver ? x2 : y2,
                            m_len)
         {
         }
-    
+
         //--------------------------------------------------------------------
         bool     is_ver() const { return m_ver; }
         unsigned len()    const { return m_len; }
