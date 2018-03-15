@@ -27,7 +27,7 @@ namespace agg
 {
 
     //-------------------------------------------------------span_image_filter
-    template<class Source, class Interpolator> class AGG_EXTERN span_image_filter
+    template<class Source, class Interpolator> class span_image_filter
     {
     public:
         typedef Source source_type;

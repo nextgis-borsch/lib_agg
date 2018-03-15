@@ -87,7 +87,7 @@ namespace agg
 
 
     //==============================================================stack_blur
-    template<class ColorT, class CalculatorT> class AGG_EXTERN stack_blur
+    template<class ColorT, class CalculatorT> class stack_blur
     {
     public:
         typedef ColorT      color_type;

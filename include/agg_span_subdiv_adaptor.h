@@ -22,7 +22,7 @@ namespace agg
 
     //=================================================span_subdiv_adaptor
     template<class Interpolator, unsigned SubpixelShift = 8>
-    class AGG_EXTERN span_subdiv_adaptor
+    class span_subdiv_adaptor
     {
     public:
         typedef Interpolator interpolator_type;

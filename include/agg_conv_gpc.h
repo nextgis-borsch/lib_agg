@@ -46,7 +46,7 @@ namespace agg
 
 
     //================================================================conv_gpc
-    template<class VSA, class VSB> class AGG_EXTERN conv_gpc
+    template<class VSA, class VSB> class conv_gpc
     {
         enum status
         {

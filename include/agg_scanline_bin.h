@@ -40,7 +40,7 @@ namespace agg
     // for details.
     //
     //------------------------------------------------------------------------
-    class AGG_EXTERN scanline_bin
+    class scanline_bin
     {
     public:
         typedef int32 coord_type;

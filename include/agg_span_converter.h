@@ -21,7 +21,7 @@
 namespace agg
 {
     //----------------------------------------------------------span_converter
-    template<class SpanGenerator, class SpanConverter> class AGG_EXTERN span_converter
+    template<class SpanGenerator, class SpanConverter> class span_converter
     {
     public:
         typedef typename SpanGenerator::color_type color_type;

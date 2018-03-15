@@ -33,7 +33,7 @@ namespace agg
 
     //==============================================span_image_filter_gray_nn
     template<class Source, class Interpolator>
-    class AGG_EXTERN span_image_filter_gray_nn : 
+    class span_image_filter_gray_nn : 
     public span_image_filter<Source, Interpolator>
     {
     public:

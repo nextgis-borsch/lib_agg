@@ -26,7 +26,7 @@ namespace agg
 {
 
     //===========================================================row_accessor
-    template<class T> class AGG_EXTERN row_accessor
+    template<class T> class row_accessor
     {
     public:
         typedef const_row_info<T> row_data;

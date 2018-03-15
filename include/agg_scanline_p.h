@@ -39,7 +39,7 @@ namespace agg
     // for details.
     //
     //------------------------------------------------------------------------
-    class AGG_EXTERN scanline_p8
+    class scanline_p8
     {
     public:
         typedef scanline_p8 self_type;

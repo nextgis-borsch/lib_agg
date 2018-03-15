@@ -22,7 +22,7 @@ namespace agg
 {
 
     //-----------------------------------------------------image_accessor_clip
-    template<class PixFmt> class AGG_EXTERN image_accessor_clip
+    template<class PixFmt> class image_accessor_clip
     {
     public:
         typedef PixFmt   pixfmt_type;

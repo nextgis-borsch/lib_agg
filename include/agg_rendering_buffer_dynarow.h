@@ -32,7 +32,7 @@ namespace agg
     // Generally it's more efficient to use this class as a temporary buffer
     // for rendering a few lines and then to blend it with another buffer.
     //
-    class AGG_EXTERN rendering_buffer_dynarow
+    class rendering_buffer_dynarow
     {
     public:
         typedef row_info<int8u> row_data;

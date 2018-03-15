@@ -26,7 +26,7 @@ namespace agg
 {
 
     //==========================================================trans_bilinear
-    class AGG_EXTERN trans_bilinear
+    class trans_bilinear
     {
     public:
         //--------------------------------------------------------------------

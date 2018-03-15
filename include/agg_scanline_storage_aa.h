@@ -34,7 +34,7 @@ namespace agg
 {
 
     //----------------------------------------------scanline_cell_storage
-    template<class T> class AGG_EXTERN scanline_cell_storage
+    template<class T> class scanline_cell_storage
     {
         struct extra_span
         {

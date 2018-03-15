@@ -27,7 +27,7 @@ namespace agg
 {
 
     //===================================================dda_line_interpolator
-    template<int FractionShift, int YShift=0> class AGG_EXTERN dda_line_interpolator
+    template<int FractionShift, int YShift=0> class dda_line_interpolator
     {
     public:
         //--------------------------------------------------------------------
@@ -82,7 +82,7 @@ namespace agg
 
 
     //=================================================dda2_line_interpolator
-    class AGG_EXTERN dda2_line_interpolator
+    class dda2_line_interpolator
     {
     public:
         typedef int save_data_type;
@@ -214,7 +214,7 @@ namespace agg
 
 
     //---------------------------------------------line_bresenham_interpolator
-    class AGG_EXTERN line_bresenham_interpolator
+    class line_bresenham_interpolator
     {
     public:
         enum subpixel_scale_e

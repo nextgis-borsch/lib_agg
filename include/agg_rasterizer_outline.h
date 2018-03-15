@@ -20,7 +20,7 @@
 namespace agg
 {
     //======================================================rasterizer_outline
-    template<class Renderer> class AGG_EXTERN rasterizer_outline
+    template<class Renderer> class rasterizer_outline
     {
     public:
         explicit rasterizer_outline(Renderer& ren) :

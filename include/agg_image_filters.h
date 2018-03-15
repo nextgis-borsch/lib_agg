@@ -44,7 +44,7 @@ namespace agg
 
 
     //-----------------------------------------------------image_filter_lut
-    class image_filter_lut
+    class AGG_EXTERN image_filter_lut
     {
     public:
         template<class FilterF> void calculate(const FilterF& filter,

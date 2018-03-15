@@ -25,7 +25,7 @@
 namespace agg
 {
     //==================================================pixfmt_amask_adaptor
-    template<class PixFmt, class AlphaMask> class AGG_EXTERN pixfmt_amask_adaptor
+    template<class PixFmt, class AlphaMask> class pixfmt_amask_adaptor
     {
     public:
         typedef PixFmt pixfmt_type;

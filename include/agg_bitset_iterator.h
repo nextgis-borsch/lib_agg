@@ -21,7 +21,7 @@
 namespace agg
 {
 
-    class AGG_EXTERN bitset_iterator
+    class bitset_iterator
     {
     public:
         bitset_iterator(const int8u* bits, unsigned offset = 0) :

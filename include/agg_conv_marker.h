@@ -26,7 +26,7 @@ namespace agg
 {
     //-------------------------------------------------------------conv_marker
     template<class MarkerLocator, class MarkerShapes>
-    class AGG_EXTERN conv_marker
+    class conv_marker
     {
     public:
         conv_marker(MarkerLocator& ml, MarkerShapes& ms);

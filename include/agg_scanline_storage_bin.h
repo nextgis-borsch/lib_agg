@@ -35,7 +35,7 @@ namespace agg
 {
 
     //-----------------------------------------------scanline_storage_bin
-    class AGG_EXTERN scanline_storage_bin
+    class scanline_storage_bin
     {
     public:
         //---------------------------------------------------------------

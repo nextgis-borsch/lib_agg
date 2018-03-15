@@ -29,7 +29,7 @@ namespace agg
 
 
     //==============================================================gamma_power
-    class AGG_EXTERN gamma_power
+    class gamma_power
     {
     public:
         gamma_power() : m_gamma(1.0) {}
@@ -49,7 +49,7 @@ namespace agg
 
 
     //==========================================================gamma_threshold
-    class AGG_EXTERN gamma_threshold
+    class gamma_threshold
     {
     public:
         gamma_threshold() : m_threshold(0.5) {}
@@ -69,7 +69,7 @@ namespace agg
 
 
     //============================================================gamma_linear
-    class AGG_EXTERN gamma_linear
+    class gamma_linear
     {
     public:
         gamma_linear() : m_start(0.0), m_end(1.0) {}
@@ -95,7 +95,7 @@ namespace agg
 
 
     //==========================================================gamma_multiply
-    class AGG_EXTERN gamma_multiply
+    class gamma_multiply
     {
     public:
         gamma_multiply() : m_mul(1.0) {}

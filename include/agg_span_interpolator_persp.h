@@ -25,7 +25,7 @@ namespace agg
 
     //===========================================span_interpolator_persp_exact
     template<unsigned SubpixelShift = 8>
-    class AGG_EXTERN span_interpolator_persp_exact
+    class span_interpolator_persp_exact
     {
     public:
         typedef trans_perspective trans_type;

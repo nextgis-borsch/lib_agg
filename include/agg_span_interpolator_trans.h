@@ -27,7 +27,7 @@ namespace agg
 {
     //=================================================span_interpolator_trans
     template<class Transformer, unsigned SubpixelShift = 8>
-    class AGG_EXTERN span_interpolator_trans
+    class span_interpolator_trans
     {
     public:
         typedef Transformer trans_type;

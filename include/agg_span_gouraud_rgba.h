@@ -33,7 +33,7 @@ namespace agg
 {
 
     //=======================================================span_gouraud_rgba
-    template<class ColorT> class AGG_EXTERN span_gouraud_rgba : public span_gouraud<ColorT>
+    template<class ColorT> class span_gouraud_rgba : public span_gouraud<ColorT>
     {
     public:
         typedef ColorT color_type;

@@ -21,7 +21,7 @@
 namespace agg
 {
     //=======================================================pixfmt_transposer
-    template<class PixFmt> class AGG_EXTERN pixfmt_transposer
+    template<class PixFmt> class pixfmt_transposer
     {
     public:
         typedef PixFmt pixfmt_type;

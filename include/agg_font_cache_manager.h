@@ -46,7 +46,7 @@ namespace agg
 
 
     //--------------------------------------------------------------font_cache
-    class AGG_EXTERN font_cache
+    class font_cache
     {
     public:
         enum block_size_e { block_size = 16384-16 };
@@ -130,7 +130,7 @@ namespace agg
 
 
     //---------------------------------------------------------font_cache_pool
-    class AGG_EXTERN font_cache_pool
+    class font_cache_pool
     {
     public:
         //--------------------------------------------------------------------
@@ -255,7 +255,7 @@ namespace agg
 
 
     //------------------------------------------------------font_cache_manager
-    template<class FontEngine> class AGG_EXTERN font_cache_manager
+    template<class FontEngine> class font_cache_manager
     {
     public:
         typedef FontEngine font_engine_type;

@@ -23,7 +23,7 @@ namespace agg
 {
 
     //========================================================glyph_raster_bin
-    template<class ColorT> class AGG_EXTERN glyph_raster_bin
+    template<class ColorT> class glyph_raster_bin
     {
     public:
         typedef ColorT color_type;

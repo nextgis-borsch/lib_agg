@@ -24,7 +24,7 @@ namespace agg
 {
 
     //=======================================================conv_shorten_path
-    template<class VertexSource>  class AGG_EXTERN conv_shorten_path : 
+    template<class VertexSource>  class conv_shorten_path : 
     public conv_adaptor_vcgen<VertexSource, vcgen_vertex_sequence>
     {
     public:

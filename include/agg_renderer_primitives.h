@@ -28,7 +28,7 @@
 namespace agg
 {
     //-----------------------------------------------------renderer_primitives
-    template<class BaseRenderer> class AGG_EXTERN renderer_primitives
+    template<class BaseRenderer> class renderer_primitives
     {
     public:
         typedef BaseRenderer base_ren_type;

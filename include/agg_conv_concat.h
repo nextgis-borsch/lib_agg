@@ -23,7 +23,7 @@ namespace agg
     //=============================================================conv_concat
     // Concatenation of two paths. Usually used to combine lines or curves
     // with markers such as arrowheads
-    template<class VS1, class VS2> class AGG_EXTERN conv_concat
+    template<class VS1, class VS2> class conv_concat
     {
     public:
         conv_concat(VS1& source1, VS2& source2) :

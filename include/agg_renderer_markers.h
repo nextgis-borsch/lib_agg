@@ -54,7 +54,7 @@ namespace agg
 
 
     //--------------------------------------------------------renderer_markers
-    template<class BaseRenderer> class AGG_EXTERN renderer_markers :
+    template<class BaseRenderer> class renderer_markers :
     public renderer_primitives<BaseRenderer>
     {
     public:

@@ -80,7 +80,7 @@ namespace agg
 
 
     //==================================================rasterizer_compound_aa
-    template<class Clip=rasterizer_sl_clip_int> class AGG_EXTERN rasterizer_compound_aa
+    template<class Clip=rasterizer_sl_clip_int> class rasterizer_compound_aa
     {
         struct style_info
         {

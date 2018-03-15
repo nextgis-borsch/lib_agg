@@ -28,7 +28,7 @@ namespace agg
 {
 
     //------------------------------------------ellipse_bresenham_interpolator
-    class AGG_EXTERN ellipse_bresenham_interpolator
+    class ellipse_bresenham_interpolator
     {
     public:
         ellipse_bresenham_interpolator(int rx, int ry) :

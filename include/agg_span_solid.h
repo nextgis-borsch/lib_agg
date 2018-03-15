@@ -25,7 +25,7 @@
 namespace agg
 {
     //--------------------------------------------------------------span_solid
-    template<class ColorT> class AGG_EXTERN span_solid
+    template<class ColorT> class span_solid
     {
     public:
         typedef ColorT color_type;

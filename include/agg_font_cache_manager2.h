@@ -50,7 +50,7 @@ namespace fman {
 
 
   //--------------------------------------------------------------cached_glyphs
-  class AGG_EXTERN cached_glyphs
+  class cached_glyphs
   {
   public:
     enum block_size_e { block_size = 16384-16 };
@@ -131,7 +131,7 @@ namespace fman {
 
 
   //------------------------------------------------------font_cache_manager
-  template<class FontEngine> class AGG_EXTERN font_cache_manager
+  template<class FontEngine> class font_cache_manager
   {
   public:
     typedef FontEngine font_engine_type;

@@ -28,7 +28,7 @@ namespace agg
 {
 
     //----------------------------------------------------------renderer_mclip
-    template<class PixelFormat> class AGG_EXTERN renderer_mclip
+    template<class PixelFormat> class renderer_mclip
     {
     public:
         typedef PixelFormat pixfmt_type;

@@ -32,7 +32,7 @@ namespace agg
 {
 
     //=====================================================apply_gamma_dir_rgb
-    template<class ColorT, class Order, class GammaLut> class AGG_EXTERN apply_gamma_dir_rgb
+    template<class ColorT, class Order, class GammaLut> class apply_gamma_dir_rgb
     {
     public:
         typedef typename ColorT::value_type value_type;

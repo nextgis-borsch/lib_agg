@@ -23,7 +23,7 @@ namespace agg
 
     //===============================================span_interpolator_adaptor
     template<class Interpolator, class Distortion>
-    class AGG_EXTERN span_interpolator_adaptor : public Interpolator
+    class span_interpolator_adaptor : public Interpolator
     {
     public:
         typedef Interpolator base_type;

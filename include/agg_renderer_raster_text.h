@@ -23,7 +23,7 @@ namespace agg
 
     //==============================================renderer_raster_htext_solid
     template<class BaseRenderer, class GlyphGenerator>
-    class AGG_EXTERN renderer_raster_htext_solid
+    class renderer_raster_htext_solid
     {
     public:
         typedef BaseRenderer ren_type;

@@ -28,7 +28,7 @@ namespace agg
 {
 
     //===================================================distance_interpolator0
-    class AGG_EXTERN distance_interpolator0
+    class distance_interpolator0
     {
     public:
         //---------------------------------------------------------------------

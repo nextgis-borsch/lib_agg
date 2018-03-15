@@ -25,7 +25,7 @@ namespace agg
 
     //================================================span_interpolator_linear
     template<class Transformer = trans_affine, unsigned SubpixelShift = 8>
-    class AGG_EXTERN span_interpolator_linear
+    class span_interpolator_linear
     {
     public:
         typedef Transformer trans_type;

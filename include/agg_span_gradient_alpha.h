@@ -25,7 +25,7 @@ namespace agg
              class Interpolator,
              class GradientF,
              class AlphaF>
-    class AGG_EXTERN span_gradient_alpha
+    class span_gradient_alpha
     {
     public:
         typedef Interpolator interpolator_type;

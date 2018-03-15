@@ -26,7 +26,7 @@
 namespace agg
 {
     //========================================================line_image_scale
-    template<class Source> class AGG_EXTERN line_image_scale
+    template<class Source> class line_image_scale
     {
     public:
         typedef typename Source::color_type color_type;

@@ -21,7 +21,7 @@
 namespace agg
 {
     //====================================================conv_unclose_polygon
-    template<class VertexSource> class AGG_EXTERN conv_unclose_polygon
+    template<class VertexSource> class conv_unclose_polygon
     {
     public:
         explicit conv_unclose_polygon(VertexSource& vs) : m_source(&vs) {}

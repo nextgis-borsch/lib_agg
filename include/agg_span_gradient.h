@@ -41,7 +41,7 @@ namespace agg
              class Interpolator,
              class GradientF,
              class ColorF>
-    class AGG_EXTERN span_gradient
+    class span_gradient
     {
     public:
         typedef Interpolator interpolator_type;

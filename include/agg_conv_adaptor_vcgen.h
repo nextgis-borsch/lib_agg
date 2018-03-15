@@ -35,7 +35,7 @@ namespace agg
     //------------------------------------------------------conv_adaptor_vcgen
     template<class VertexSource,
              class Generator,
-             class Markers=null_markers> class AGG_EXTERN conv_adaptor_vcgen
+             class Markers=null_markers> class conv_adaptor_vcgen
     {
         enum status
         {

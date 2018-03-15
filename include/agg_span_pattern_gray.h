@@ -31,7 +31,7 @@ namespace agg
 {
 
     //=======================================================span_pattern_gray
-    template<class Source> class AGG_EXTERN span_pattern_gray
+    template<class Source> class span_pattern_gray
     {
     public:
         typedef Source source_type;

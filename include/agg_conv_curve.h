@@ -53,7 +53,7 @@ namespace agg
     //-----------------------------------------------------------------------
     template<class VertexSource,
              class Curve3=curve3,
-             class Curve4=curve4> class AGG_EXTERN conv_curve
+             class Curve4=curve4> class conv_curve
     {
     public:
         typedef Curve3 curve3_type;

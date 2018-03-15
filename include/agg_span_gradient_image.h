@@ -32,7 +32,7 @@ namespace agg
 {
 
 	//==========================================================one_color_function
-	template<class ColorT> class AGG_EXTERN one_color_function
+	template<class ColorT> class one_color_function
 	{
 	public:
 		typedef ColorT color_type;
