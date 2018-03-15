@@ -24,7 +24,7 @@ namespace agg
     //
     // See Inmplementation agg_trans_warp_magnifier.cpp
     //
-    class AGG_EXTERN trans_warp_magnifier
+    class trans_warp_magnifier
     {
     public:
         trans_warp_magnifier() : m_xc(0.0), m_yc(0.0), m_magn(1.0), m_radius(1.0) {}
