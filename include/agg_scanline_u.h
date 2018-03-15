@@ -106,7 +106,7 @@ namespace agg
     // are better, because switching between two different areas of memory
     // (that can be very large) occurs less frequently.
     //------------------------------------------------------------------------
-    class AGG_EXTERN scanline_u8
+    class scanline_u8
     {
     public:
         typedef scanline_u8 self_type;

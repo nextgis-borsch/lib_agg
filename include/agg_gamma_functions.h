@@ -95,7 +95,7 @@ namespace agg
 
 
     //==========================================================gamma_multiply
-    class gamma_multiply
+    class AGG_EXTERN gamma_multiply
     {
     public:
         gamma_multiply() : m_mul(1.0) {}

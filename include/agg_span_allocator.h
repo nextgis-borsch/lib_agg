@@ -21,7 +21,7 @@
 namespace agg
 {
     //----------------------------------------------------------span_allocator
-    template<class ColorT> class AGG_EXTERN span_allocator
+    template<class ColorT> class span_allocator
     {
     public:
         typedef ColorT color_type;

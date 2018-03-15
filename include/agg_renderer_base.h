@@ -27,7 +27,7 @@ namespace agg
 {
 
     //-----------------------------------------------------------renderer_base
-    template<class PixelFormat> class AGG_EXTERN renderer_base
+    template<class PixelFormat> class renderer_base
     {
     public:
         typedef PixelFormat pixfmt_type;

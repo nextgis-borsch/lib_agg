@@ -126,7 +126,7 @@ namespace agg
     // is a straightforward lookup. The inverse conversion (linear to sRGB)
     // is implemented using binary search.
     template<class LinearType>
-    class AGG_EXTERN sRGB_lut_base
+    class sRGB_lut_base
     {
     public:
         LinearType dir(int8u v) const
@@ -165,7 +165,7 @@ namespace agg
     class sRGB_lut;
 
     template<>
-    class AGG_EXTERN sRGB_lut<float> : public sRGB_lut_base<float>
+    class sRGB_lut<float> : public sRGB_lut_base<float>
     {
     public:
         sRGB_lut()
@@ -183,7 +183,7 @@ namespace agg
     };
 
     template<>
-    class AGG_EXTERN sRGB_lut<int16u> : public sRGB_lut_base<int16u>
+    class sRGB_lut<int16u> : public sRGB_lut_base<int16u>
     {
     public:
         sRGB_lut()
@@ -201,7 +201,7 @@ namespace agg
     };
 
     template<>
-    class AGG_EXTERN sRGB_lut<int8u> : public sRGB_lut_base<int8u>
+    class sRGB_lut<int8u> : public sRGB_lut_base<int8u>
     {
     public:
         sRGB_lut()
@@ -227,7 +227,7 @@ namespace agg
     // Common base class for sRGB_conv objects. Defines an internal
     // sRGB_lut object so that users don't have to.
     template<class T>
-    class AGG_EXTERN sRGB_conv_base
+    class sRGB_conv_base
     {
     public:
         static T rgb_from_sRGB(int8u x)
@@ -255,7 +255,7 @@ namespace agg
     class sRGB_conv;
 
     template<>
-    class AGG_EXTERN sRGB_conv<float> : public sRGB_conv_base<float>
+    class sRGB_conv<float> : public sRGB_conv_base<float>
     {
     public:
         static float alpha_from_sRGB(int8u x)
@@ -272,7 +272,7 @@ namespace agg
     };
 
     template<>
-    class AGG_EXTERN sRGB_conv<int16u> : public sRGB_conv_base<int16u>
+    class sRGB_conv<int16u> : public sRGB_conv_base<int16u>
     {
     public:
         static int16u alpha_from_sRGB(int8u x)
@@ -287,7 +287,7 @@ namespace agg
     };
 
     template<>
-    class AGG_EXTERN sRGB_conv<int8u> : public sRGB_conv_base<int8u>
+    class sRGB_conv<int8u> : public sRGB_conv_base<int8u>
     {
     public:
         static int8u alpha_from_sRGB(int8u x)
