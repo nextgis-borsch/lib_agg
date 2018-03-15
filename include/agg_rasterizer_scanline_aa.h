@@ -68,7 +68,7 @@ namespace agg
     //
     // filling_rule() and gamma() can be called anytime before "sweeping".
     //------------------------------------------------------------------------
-    template<class Clip=rasterizer_sl_clip_int> class AGG_EXTERN rasterizer_scanline_aa
+    template<class Clip=rasterizer_sl_clip_int> class rasterizer_scanline_aa
     {
         enum status
         {

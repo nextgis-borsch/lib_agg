@@ -23,7 +23,7 @@ namespace agg
 {
 
     //-------------------------------------------------------pod_array_adaptor
-    template<class T> class AGG_EXTERN pod_array_adaptor
+    template<class T> class pod_array_adaptor
     {
     public:
         typedef T value_type;
@@ -44,7 +44,7 @@ namespace agg
 
 
     //---------------------------------------------------------pod_auto_array
-    template<class T, unsigned Size> class AGG_EXTERN pod_auto_array
+    template<class T, unsigned Size> class pod_auto_array
     {
     public:
         typedef T value_type;
@@ -75,7 +75,7 @@ namespace agg
 
 
     //--------------------------------------------------------pod_auto_vector
-    template<class T, unsigned Size> class AGG_EXTERN pod_auto_vector
+    template<class T, unsigned Size> class pod_auto_vector
     {
     public:
         typedef T value_type;
@@ -103,7 +103,7 @@ namespace agg
 
 
     //---------------------------------------------------------------pod_array
-    template<class T> class AGG_EXTERN pod_array
+    template<class T> class pod_array
     {
     public:
         typedef T value_type;
@@ -159,7 +159,7 @@ namespace agg
     // A simple class template to store Plain Old Data, a vector
     // of a fixed size. The data is continous in memory
     //------------------------------------------------------------------------
-    template<class T> class AGG_EXTERN pod_vector
+    template<class T> class pod_vector
     {
     public:
         typedef T value_type;
@@ -323,7 +323,7 @@ namespace agg
     // of increment to reallocate the pointer buffer. See the second constructor.
     // By default, the incremeent value equals (1 << S), i.e., the block size.
     //------------------------------------------------------------------------
-    template<class T, unsigned S=6> class AGG_EXTERN pod_bvector
+    template<class T, unsigned S=6> class pod_bvector
     {
     public:
         enum block_scale_e

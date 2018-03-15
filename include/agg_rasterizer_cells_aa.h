@@ -42,7 +42,7 @@ namespace agg
     //-----------------------------------------------------rasterizer_cells_aa
     // An internal class that implements the main rasterization algorithm.
     // Used in the rasterizer. Should not be used direcly.
-    template<class Cell> class AGG_EXTERN rasterizer_cells_aa
+    template<class Cell> class rasterizer_cells_aa
     {
         enum cell_block_scale_e
         {

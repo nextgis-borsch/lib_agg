@@ -28,7 +28,7 @@ namespace agg
 
     //----------------------------------------------------vertex_block_storage
     template<class T, unsigned BlockShift=8, unsigned BlockPool=256>
-    class AGG_EXTERN vertex_block_storage
+    class vertex_block_storage
     {
     public:
         // Allocation parameters

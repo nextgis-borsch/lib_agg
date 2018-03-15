@@ -22,7 +22,7 @@ namespace agg
 {
 
     //======================================================conv_adaptor_vpgen
-    template<class VertexSource, class VPGen> class AGG_EXTERN conv_adaptor_vpgen
+    template<class VertexSource, class VPGen> class conv_adaptor_vpgen
     {
     public:
         explicit conv_adaptor_vpgen(VertexSource& source) : m_source(&source) {}

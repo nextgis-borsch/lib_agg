@@ -54,7 +54,7 @@ namespace agg
     };
 
     //------------------------------------------------------------math_stroke
-    template<class VertexConsumer> class AGG_EXTERN math_stroke
+    template<class VertexConsumer> class math_stroke
     {
     public:
         typedef typename VertexConsumer::value_type coord_type;

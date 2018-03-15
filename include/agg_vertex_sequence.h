@@ -64,7 +64,7 @@ namespace agg
     // necessary.
     //------------------------------------------------------------------------
     template<class T, unsigned S=6>
-    class AGG_EXTERN vertex_sequence : public pod_bvector<T, S>
+    class vertex_sequence : public pod_bvector<T, S>
     {
     public:
         typedef pod_bvector<T, S> base_type;
